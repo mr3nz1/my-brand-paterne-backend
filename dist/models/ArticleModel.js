@@ -25,15 +25,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const articleSchema = new mongoose_1.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
     },
-    email: {
+    description: {
         type: String,
         required: true,
-        unique: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+    bannerImageUrl: {
+        type: String,
+        required: true,
     },
 });
 const ArticleModel = mongoose_1.default.model("User", articleSchema);
-exports.default = ArticleModel;

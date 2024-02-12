@@ -1,23 +1,30 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 interface ArticleDocument extends Document {
-  name: string;
-  email: string;
-  password: string;
+  title: string;
+  description: string;
+  content: string;
+  bannerImageUrl: string;
 }
 
 const articleSchema = new Schema<ArticleDocument>({
-  name: {
+  title: {
     type: String,
     required: true,
   },
-  email: {
+  description: {
     type: String,
     required: true,
-    unique: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  bannerImageUrl: {
+    type: String,
+    required: true,
   },
 });
 
 const ArticleModel = mongoose.model<ArticleDocument>("User", articleSchema);
-
-export default ArticleModel;
