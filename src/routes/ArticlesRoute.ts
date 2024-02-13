@@ -1,17 +1,23 @@
 import { Router } from "express";
 import ArticleController from "../controllers/ArticleController";
+import fileUpload from "../utils/fileUpload";
+import auth from "../middlewares/auth";
 
 const router: Router = Router();
 
 router
   .route("/")
-  .get(ArticleController.getArticles)
-  .post(ArticleController.createArticle);
+  .get(auth, ArticleController.getArticles)
+  .post(
+    auth,
+    fileUpload.single("bannerImage"),
+    ArticleController.createArticle
+  );
 
 router
   .route("/:id")
-  .get(ArticleController.getArticle)
+  .get(auth, ArticleController.getArticle)
   .patch(ArticleController.updateArticle)
-  .delete(ArticleController.deleteArticle);
+  .delete(auth, ArticleController.deleteArticle);
 
 export default router;

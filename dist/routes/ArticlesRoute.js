@@ -5,14 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const ArticleController_1 = __importDefault(require("../controllers/ArticleController"));
+const fileUpload_1 = __importDefault(require("../utils/fileUpload"));
+const auth_1 = __importDefault(require("../middlewares/auth"));
 const router = (0, express_1.Router)();
 router
     .route("/")
-    .get(ArticleController_1.default.getArticles)
-    .post(ArticleController_1.default.createArticle);
+    .get(auth_1.default, ArticleController_1.default.getArticles)
+    .post(auth_1.default, fileUpload_1.default.single("bannerImage"), ArticleController_1.default.createArticle);
 router
     .route("/:id")
-    .get(ArticleController_1.default.getArticle)
+    .get(auth_1.default, ArticleController_1.default.getArticle)
     .patch(ArticleController_1.default.updateArticle)
-    .delete(ArticleController_1.default.deleteArticle);
+    .delete(auth_1.default, ArticleController_1.default.deleteArticle);
 exports.default = router;
