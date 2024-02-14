@@ -17,7 +17,11 @@ router
 router
   .route("/:id")
   .get(auth, ArticleController.getArticle)
-  .patch(ArticleController.updateArticle)
+  .patch(
+    auth,
+    fileUpload.single("bannerImage"),
+    ArticleController.updateArticle
+  )
   .delete(auth, ArticleController.deleteArticle);
 
 export default router;

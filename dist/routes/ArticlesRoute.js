@@ -15,6 +15,6 @@ router
 router
     .route("/:id")
     .get(auth_1.default, ArticleController_1.default.getArticle)
-    .patch(ArticleController_1.default.updateArticle)
+    .patch(auth_1.default, fileUpload_1.default.single("bannerImage"), ArticleController_1.default.updateArticle)
     .delete(auth_1.default, ArticleController_1.default.deleteArticle);
 exports.default = router;

@@ -97,8 +97,22 @@ class ArticleController {
                 if (!articleId)
                     throw new CustomError_1.default("Please provide an article", http_status_codes_1.StatusCodes.BAD_REQUEST);
                 const value = yield ArticleValidation_1.updateArticleSchema.validateAsync(req.body);
-                if (!req.file)
-                    throw new CustomError_1.default("Banner Image is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+                const article = yield ArticleModel_1.default.findById(articleId);
+                if (!article)
+                    throw new CustomError_1.default("Can't find article with ID: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
+                if (req.file) {
+                    fs_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl), (err) => {
+                        if (err) {
+                            throw new CustomError_1.default("Error while deleting image", http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR);
+                        }
+                    });
+                    yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename })));
+                }
+                else {
+                    yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign({}, req.body)));
+                }
+                yield (article === null || article === void 0 ? void 0 : article.save());
+                res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfully updated" });
             }
             catch (err) {
                 next(err);

@@ -124,11 +124,35 @@ class ArticleController {
 
       const value = await updateArticleSchema.validateAsync(req.body);
 
-      if (!req.file)
+      const article = await ArticleModel.findById(articleId);
+
+      if (!article)
         throw new CustomError(
-          "Banner Image is required",
-          StatusCodes.BAD_REQUEST
+          "Can't find article with ID: " + articleId,
+          StatusCodes.NOT_FOUND
         );
+
+      if (req.file) {
+        fs.unlink("./uploads/" + article?.bannerImageUrl, (err) => {
+          if (err) {
+            throw new CustomError(
+              "Error while deleting image",
+              StatusCodes.INTERNAL_SERVER_ERROR
+            );
+          }
+        });
+
+        await article?.updateOne({
+          ...req.body,
+          bannerImageUrl: req.file.filename,
+        });
+      } else {
+        await article?.updateOne({ ...req.body });
+      }
+
+      await article?.save();
+
+      res.status(StatusCodes.OK).json({ msg: "Successfully updated" });
     } catch (err) {
       next(err);
     }
