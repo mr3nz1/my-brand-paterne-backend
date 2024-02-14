@@ -9,6 +9,8 @@ async function errorHandler(
   res: Response,
   next: NextFunction
 ) {
+  console.log(err);
+
   if (err instanceof CustomError) {
     const customError = {
       statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,

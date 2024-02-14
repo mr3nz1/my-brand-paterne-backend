@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import CustomError from "../errors/CustomError";
 import { StatusCodes } from "http-status-codes";
+import fs from "fs";
 
 interface AuthenticatedUser {
   userId: string;

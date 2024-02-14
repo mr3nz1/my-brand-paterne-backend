@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, InferSchemaType } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -51,6 +51,8 @@ userSchema.methods.isPasswordCorrect = async function (
   return isMatch;
 };
 
-const UserModel = mongoose.model<UserDocument>("User", userSchema);
+type UserSchemaType = InferSchemaType<typeof userSchema>;
+
+const UserModel = mongoose.model<UserSchemaType>("User", userSchema);
 
 export default UserModel;

@@ -22,27 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importStar(require("mongoose"));
-const articleSchema = new mongoose_1.Schema({
-    title: {
-        type: String,
-        required: true,
+const multer_1 = __importDefault(require("multer"));
+const uuid = __importStar(require("uuid"));
+const path = __importStar(require("path"));
+const fileStorageEngine = multer_1.default.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "./uploads");
     },
-    description: {
-        type: String,
-        required: true,
+    filename: (req, file, callback) => {
+        callback(null, uuid.v4() + path.extname(file.originalname));
     },
-    content: {
-        type: String,
-        required: true,
-    },
-    bannerImageUrl: {
-        type: String,
-        required: true,
-    },
-}, {
-    timestamps: true,
 });
-const ArticleModel = mongoose_1.default.model("Article", articleSchema);
-exports.default = ArticleModel;
+exports.default = fileStorageEngine;

@@ -17,6 +17,7 @@ const CustomError_1 = __importDefault(require("../errors/CustomError"));
 const joi_1 = require("joi");
 function errorHandler(err, req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(err);
         if (err instanceof CustomError_1.default) {
             const customError = {
                 statusCode: err.statusCode || http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR,
