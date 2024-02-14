@@ -33,7 +33,7 @@ class UserController {
     try {
       const value = await registerUserSchema.validateAsync(req.body);
 
-      const user = new UserModel(req.body);
+      const user = await UserModel.create(req.body);
       await user.save();
 
       const token = user.createJWT();

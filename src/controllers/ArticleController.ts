@@ -21,7 +21,7 @@ class ArticleController {
 
       const filename = req.file.filename;
 
-      const article = new ArticleModel({
+      const article = await ArticleModel.create({
         ...req.body,
         bannerImageUrl: req.file.filename,
       });

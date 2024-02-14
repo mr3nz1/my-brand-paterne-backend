@@ -1,5 +1,10 @@
 import { string } from "joi";
-import mongoose, { Schema, Document, MongooseError } from "mongoose";
+import mongoose, {
+  Schema,
+  Document,
+  MongooseError,
+  InferSchemaType,
+} from "mongoose";
 
 interface MessageDocument extends Document {
   name: string;
@@ -25,4 +30,11 @@ const messageSchema = new Schema<MessageDocument>(
   { timestamps: true }
 );
 
-const MessageModel = mongoose.model<MessageDocument>("Message", messageSchema);
+type MessageSchemaType = InferSchemaType<typeof messageSchema>;
+
+const MessageModel = mongoose.model<MessageSchemaType>(
+  "Message",
+  messageSchema
+);
+
+export default MessageModel;

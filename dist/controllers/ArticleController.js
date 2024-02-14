@@ -25,7 +25,7 @@ class ArticleController {
                 if (!req.file)
                     throw new CustomError_1.default("Banner Image is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
                 const filename = req.file.filename;
-                const article = new ArticleModel_1.default(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename }));
+                const article = yield ArticleModel_1.default.create(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename }));
                 yield article.save();
                 return res.status(http_status_codes_1.StatusCodes.CREATED).json({ msg: "Article created" });
             }

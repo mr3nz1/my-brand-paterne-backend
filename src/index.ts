@@ -4,14 +4,13 @@ import dotenv from "dotenv";
 const app: Express = express();
 
 // routes
-import users from "./routes/UserRoute";
-import articles from "./routes/ArticlesRoute";
-import tasks from "./routes/TaskRoute";
-import comments from "./routes/CommentRoute";
-import messages from "./routes/MessageRoute";
+import usersRoutes from "./routes/UsersRoutes";
+import articlesRoutes from "./routes/ArticlesRoute";
+import messagesRoutes from "./routes/MessagesRoutes";
+import tasksRoutes from "./routes/TasksRoutes";
+import commentsRoutes from "./routes/CommentsRoutes";
 import errorHandler from "./middlewares/errorHandler";
 import bodyParser from "body-parser";
-import mongoose from "mongoose";
 import connectDB from "./db/connectDB";
 import { StatusCodes } from "http-status-codes";
 
@@ -30,11 +29,11 @@ class Server {
     app.get("/", (req: Request, res: Response) => {
       res.send("Typescript Classes Express Project");
     });
-    app.use("/api/v1/users", users);
-    app.use("/api/v1/articles", articles);
-    app.use("/api/v1/comments", comments);
-    app.use("/api/v1/messages", messages);
-    app.use("/api/v1/tasks", tasks);
+    app.use("/api/v1/users", usersRoutes);
+    app.use("/api/v1/articles", articlesRoutes);
+    app.use("/api/v1/messages", messagesRoutes);
+    app.use("/api/v1/tasks", tasksRoutes);
+    app.use("/api/v1/comments", commentsRoutes);
     app.all("*", (req: Request, res: Response) => {
       res.status(StatusCodes.NOT_FOUND).json({ msg: "Page not found" });
     });

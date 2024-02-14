@@ -23,8 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongodb_1 = require("mongodb");
 const mongoose_1 = __importStar(require("mongoose"));
 const commentSchema = new mongoose_1.Schema({
+    articleId: {
+        type: mongodb_1.ObjectId,
+        required: true,
+    },
     name: {
         type: String,
         required: true,

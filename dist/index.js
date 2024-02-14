@@ -16,11 +16,11 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
 // routes
-const UserRoute_1 = __importDefault(require("./routes/UserRoute"));
+const UsersRoutes_1 = __importDefault(require("./routes/UsersRoutes"));
 const ArticlesRoute_1 = __importDefault(require("./routes/ArticlesRoute"));
-const TaskRoute_1 = __importDefault(require("./routes/TaskRoute"));
-const CommentRoute_1 = __importDefault(require("./routes/CommentRoute"));
-const MessageRoute_1 = __importDefault(require("./routes/MessageRoute"));
+const MessagesRoutes_1 = __importDefault(require("./routes/MessagesRoutes"));
+const TasksRoutes_1 = __importDefault(require("./routes/TasksRoutes"));
+const CommentsRoutes_1 = __importDefault(require("./routes/CommentsRoutes"));
 const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const connectDB_1 = __importDefault(require("./db/connectDB"));
@@ -38,11 +38,11 @@ class Server {
         app.get("/", (req, res) => {
             res.send("Typescript Classes Express Project");
         });
-        app.use("/api/v1/users", UserRoute_1.default);
+        app.use("/api/v1/users", UsersRoutes_1.default);
         app.use("/api/v1/articles", ArticlesRoute_1.default);
-        app.use("/api/v1/comments", CommentRoute_1.default);
-        app.use("/api/v1/messages", MessageRoute_1.default);
-        app.use("/api/v1/tasks", TaskRoute_1.default);
+        app.use("/api/v1/messages", MessagesRoutes_1.default);
+        app.use("/api/v1/tasks", TasksRoutes_1.default);
+        app.use("/api/v1/comments", CommentsRoutes_1.default);
         app.all("*", (req, res) => {
             res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({ msg: "Page not found" });
         });

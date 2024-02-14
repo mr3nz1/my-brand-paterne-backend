@@ -37,7 +37,7 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const value = yield UserValidations_1.registerUserSchema.validateAsync(req.body);
-                const user = new UserModel_1.default(req.body);
+                const user = yield UserModel_1.default.create(req.body);
                 yield user.save();
                 const token = user.createJWT();
                 res.status(http_status_codes_1.StatusCodes.CREATED).json({

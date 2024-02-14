@@ -1,13 +1,12 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { ObjectId, UUID } from "mongodb";
+import mongoose, { Schema, InferSchemaType } from "mongoose";
 
-interface CommentDocument extends Document {
-  name: string;
-  email: string;
-  comment: string;
-}
-
-const commentSchema = new Schema<CommentDocument>(
+const commentSchema = new Schema(
   {
+    articleId: {
+      type: ObjectId,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -26,6 +25,11 @@ const commentSchema = new Schema<CommentDocument>(
   }
 );
 
-const CommentModel = mongoose.model<CommentDocument>("Comment", commentSchema);
+type CommentSchemaType = InferSchemaType<typeof commentSchema>;
+
+const CommentModel = mongoose.model<CommentSchemaType>(
+  "Comment",
+  commentSchema
+);
 
 export default CommentModel;

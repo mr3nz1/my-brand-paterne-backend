@@ -1,11 +1,6 @@
-import mongoose, { Schema, Document, mongo } from "mongoose";
+import mongoose, { Schema, Document, mongo, InferSchemaType } from "mongoose";
 
-interface TaskDocument extends Document {
-  title: string;
-  content: string;
-}
-
-const taskSchema = new Schema<TaskDocument>(
+const taskSchema = new Schema(
   {
     title: {
       type: String,
@@ -19,6 +14,8 @@ const taskSchema = new Schema<TaskDocument>(
   { timestamps: true }
 );
 
-const TaskModel = mongoose.model<TaskDocument>("Task", taskSchema);
+type TaskSchemaType = InferSchemaType<typeof taskSchema>;
+
+const TaskModel = mongoose.model<TaskSchemaType>("Task", taskSchema);
 
 export default TaskModel;
