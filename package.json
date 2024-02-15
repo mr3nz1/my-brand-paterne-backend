@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "watch:ts": "npx tsc --watch"
+    "watch:ts": "npx tsc --watch",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
