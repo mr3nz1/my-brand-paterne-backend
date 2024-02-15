@@ -6,7 +6,8 @@ import {
 import CustomError from "../errors/CustomError";
 import { StatusCodes } from "http-status-codes";
 import ArticleModel from "../models/ArticleModel";
-import fs from "fs";
+import fs from "fs/promises";
+import CommentModel from "../models/CommentModel";
 
 class ArticleController {
   public async createArticle(req: Request, res: Response, next: NextFunction) {
@@ -88,15 +89,9 @@ class ArticleController {
         );
 
       const article = await ArticleModel.findByIdAndDelete(articleId);
+      await CommentModel.deleteMany({ articleId });
 
-      fs.unlink("./uploads/" + article?.bannerImageUrl, (err) => {
-        if (err) {
-          throw new CustomError(
-            "Error while deleting image",
-            StatusCodes.INTERNAL_SERVER_ERROR
-          );
-        }
-      });
+      await fs.unlink("./uploads/" + article?.bannerImageUrl);
 
       if (!article)
         throw new CustomError(
@@ -133,14 +128,7 @@ class ArticleController {
         );
 
       if (req.file) {
-        fs.unlink("./uploads/" + article?.bannerImageUrl, (err) => {
-          if (err) {
-            throw new CustomError(
-              "Error while deleting image",
-              StatusCodes.INTERNAL_SERVER_ERROR
-            );
-          }
-        });
+        await fs.unlink("./uploads/" + article?.bannerImageUrl);
 
         await article?.updateOne({
           ...req.body,

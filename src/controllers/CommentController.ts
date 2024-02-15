@@ -10,6 +10,16 @@ class CommentController {
     try {
       const commentData = await createCommentSchema.validateAsync(req.body);
 
+      const article = await ArticleModel.findById(commentData.articleId);
+
+      if (!article)
+        throw new CustomError(
+          "No article of Id: " +
+            commentData.articleId +
+            ". You can not add a comment to an unexistent article.",
+          StatusCodes.NOT_FOUND
+        );
+
       const comment = await CommentModel.create({ ...commentData });
       comment.save();
 
@@ -23,9 +33,15 @@ class CommentController {
 
   public async getComments(req: Request, res: Response, next: NextFunction) {
     try {
-      const comments = await CommentModel.find({});
+      const articleId = req.params.articleId;
 
-      // ensure that one can filter out what they want
+      if (!articleId)
+        throw new CustomError(
+          "Article Id is required",
+          StatusCodes.BAD_REQUEST
+        );
+
+      const comments = await CommentModel.find({ articleId });
 
       res.status(StatusCodes.OK).json({
         msg: "Success",

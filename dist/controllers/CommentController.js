@@ -15,11 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CommentValidation_1 = __importDefault(require("../validation/CommentValidation"));
 const CommentModel_1 = __importDefault(require("../models/CommentModel"));
 const http_status_codes_1 = require("http-status-codes");
+const CustomError_1 = __importDefault(require("../errors/CustomError"));
+const ArticleModel_1 = __importDefault(require("../models/ArticleModel"));
 class CommentController {
     createComment(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const commentData = yield CommentValidation_1.default.validateAsync(req.body);
+                const article = yield ArticleModel_1.default.findById(commentData.articleId);
+                if (!article)
+                    throw new CustomError_1.default("No article of Id: " +
+                        commentData.articleId +
+                        ". You can not add a comment to an unexistent article.", http_status_codes_1.StatusCodes.NOT_FOUND);
                 const comment = yield CommentModel_1.default.create(Object.assign({}, commentData));
                 comment.save();
                 return res.status(http_status_codes_1.StatusCodes.CREATED).json({
@@ -34,8 +41,10 @@ class CommentController {
     getComments(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const comments = yield CommentModel_1.default.find({});
-                // ensure that one can filter out what they want
+                const articleId = req.params.articleId;
+                if (!articleId)
+                    throw new CustomError_1.default("Article Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+                const comments = yield CommentModel_1.default.find({ articleId });
                 res.status(http_status_codes_1.StatusCodes.OK).json({
                     msg: "Success",
                     comments,

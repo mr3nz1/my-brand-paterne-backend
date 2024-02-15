@@ -19,6 +19,10 @@ const articleSchema = new Schema(
       type: String,
       required: true,
     },
+    isPublished: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,

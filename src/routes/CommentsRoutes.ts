@@ -3,11 +3,8 @@ import CommentController from "../controllers/CommentController";
 
 const router: Router = Router();
 
-router
-  .route("/")
-  .get(CommentController.getComments)
-  .post(CommentController.createComment);
-
+router.route("/").post(CommentController.createComment);
+router.route("/:authorId").get(CommentController.getComments);
 router.route("/:id").delete(CommentController.deleteComment);
 
 export default router;

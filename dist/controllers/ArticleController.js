@@ -16,7 +16,8 @@ const ArticleValidation_1 = require("../validation/ArticleValidation");
 const CustomError_1 = __importDefault(require("../errors/CustomError"));
 const http_status_codes_1 = require("http-status-codes");
 const ArticleModel_1 = __importDefault(require("../models/ArticleModel"));
-const fs_1 = __importDefault(require("fs"));
+const promises_1 = __importDefault(require("fs/promises"));
+const CommentModel_1 = __importDefault(require("../models/CommentModel"));
 class ArticleController {
     createArticle(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -74,11 +75,8 @@ class ArticleController {
                 if (!articleId)
                     throw new CustomError_1.default("Please provide an article", http_status_codes_1.StatusCodes.BAD_REQUEST);
                 const article = yield ArticleModel_1.default.findByIdAndDelete(articleId);
-                fs_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl), (err) => {
-                    if (err) {
-                        throw new CustomError_1.default("Error while deleting image", http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR);
-                    }
-                });
+                yield CommentModel_1.default.deleteMany({ articleId });
+                yield promises_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl));
                 if (!article)
                     throw new CustomError_1.default("No article of Id: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
                 return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({
@@ -101,11 +99,7 @@ class ArticleController {
                 if (!article)
                     throw new CustomError_1.default("Can't find article with ID: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
                 if (req.file) {
-                    fs_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl), (err) => {
-                        if (err) {
-                            throw new CustomError_1.default("Error while deleting image", http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR);
-                        }
-                    });
+                    yield promises_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl));
                     yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename })));
                 }
                 else {

@@ -41,6 +41,10 @@ const articleSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    isPublished: {
+        type: Boolean,
+        required: true,
+    },
 }, {
     timestamps: true,
 });
