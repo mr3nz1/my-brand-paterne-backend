@@ -29,7 +29,8 @@ class CommentController {
             const comment = yield CommentModel_1.default.create(Object.assign({}, commentData));
             comment.save();
             return res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                msg: "Succesfully Created",
+                status: "success",
+                data: null,
             });
         });
     }
@@ -40,8 +41,8 @@ class CommentController {
                 throw new CustomError_1.default("Article Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
             const comments = yield CommentModel_1.default.find({ articleId });
             res.status(http_status_codes_1.StatusCodes.OK).json({
-                msg: "Success",
-                comments,
+                status: "success",
+                data: { comments },
             });
         });
     }

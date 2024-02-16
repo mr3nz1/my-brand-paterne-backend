@@ -23,7 +23,8 @@ class CommentController {
     comment.save();
 
     return res.status(StatusCodes.CREATED).json({
-      msg: "Succesfully Created",
+      status: "success",
+      data: null,
     });
   }
 
@@ -36,8 +37,8 @@ class CommentController {
     const comments = await CommentModel.find({ articleId });
 
     res.status(StatusCodes.OK).json({
-      msg: "Success",
-      comments,
+      status: "success",
+      data: { comments },
     });
   }
 

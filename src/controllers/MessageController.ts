@@ -13,15 +13,16 @@ class MessageController {
     message.save();
 
     return res.status(StatusCodes.CREATED).json({
-      msg: "Message created",
+      status: "message",
+      data: null,
     });
   }
 
   public async getMessages(req: Request, res: Response, next: NextFunction) {
     const messages = await MessageModel.find({});
     return res.status(StatusCodes.OK).json({
-      msg: "Success",
-      messages,
+      status: "success",
+      data: { messages },
     });
   }
 
@@ -39,7 +40,7 @@ class MessageController {
         StatusCodes.NOT_FOUND
       );
 
-    return res.status(StatusCodes.OK).json({ msg: "Successfully deleted" });
+    return res.status(StatusCodes.OK).json({ status: "success", data: null });
   }
 }
 

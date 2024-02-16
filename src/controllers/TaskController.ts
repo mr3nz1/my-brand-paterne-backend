@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  createTaskUserSchema,
-} from "../validation/TaskValidation";
+import { createTaskUserSchema } from "../validation/TaskValidation";
 import TaskModel from "../models/TaskModel";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors/CustomError";
@@ -17,7 +15,8 @@ class TaskController {
     await task.save();
 
     return res.status(StatusCodes.CREATED).json({
-      msg: "Success",
+      status: "success",
+      data: null,
     });
   }
 
@@ -25,8 +24,8 @@ class TaskController {
     const tasks = await TaskModel.find({});
 
     res.status(StatusCodes.OK).json({
-      msg: "Success",
-      tasks,
+      status: "success",
+      data: { tasks },
     });
   }
 
@@ -44,7 +43,7 @@ class TaskController {
         StatusCodes.NOT_FOUND
       );
 
-    return res.status(StatusCodes.OK).json({ msg: "Successfuly deleted" });
+    return res.status(StatusCodes.OK).json({ message: "success", data: null });
   }
 
   public async updateTask(req: Request, res: Response, next: NextFunction) {
@@ -76,7 +75,8 @@ class TaskController {
       console.log(taskData);
 
       return res.status(StatusCodes.OK).json({
-        msg: "Successfully updated",
+        message: "success",
+        data: null,
       });
     } catch (err) {
       next(err);

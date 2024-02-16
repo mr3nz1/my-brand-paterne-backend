@@ -28,7 +28,9 @@ class ArticleController {
 
     await article.save();
 
-    return res.status(StatusCodes.CREATED).json({ msg: "Article created" });
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ status: "success", message: "Article created" });
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
@@ -36,8 +38,8 @@ class ArticleController {
       "_id, title description content bannerImageUrl"
     );
     return res.status(StatusCodes.OK).json({
-      msg: "Success",
-      articles,
+      status: "success",
+      data: { articles },
     });
   }
 
@@ -61,8 +63,8 @@ class ArticleController {
       );
 
     return res.status(StatusCodes.OK).json({
-      msg: "Success",
-      article,
+      status: "success",
+      data: { article },
     });
   }
 
@@ -87,7 +89,8 @@ class ArticleController {
       );
 
     return res.status(StatusCodes.NOT_FOUND).json({
-      msg: "Success deleting article with id: " + articleId,
+      status: "success deleting article with id: " + articleId,
+      data: null,
     });
   }
 
@@ -123,7 +126,7 @@ class ArticleController {
 
     await article?.save();
 
-    res.status(StatusCodes.OK).json({ msg: "Successfully updated" });
+    res.status(StatusCodes.OK).json({ status: "success", data: null });
   }
 }
 

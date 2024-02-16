@@ -23,7 +23,8 @@ class MessageController {
             const message = yield MessageModel_1.default.create(messageData);
             message.save();
             return res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                msg: "Message created",
+                status: "message",
+                data: null,
             });
         });
     }
@@ -31,8 +32,8 @@ class MessageController {
         return __awaiter(this, void 0, void 0, function* () {
             const messages = yield MessageModel_1.default.find({});
             return res.status(http_status_codes_1.StatusCodes.OK).json({
-                msg: "Success",
-                messages,
+                status: "success",
+                data: { messages },
             });
         });
     }
@@ -44,7 +45,7 @@ class MessageController {
             const message = yield MessageModel_1.default.findByIdAndDelete(messageId);
             if (!message)
                 throw new CustomError_1.default("Message of id: " + messageId, http_status_codes_1.StatusCodes.NOT_FOUND);
-            return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfully deleted" });
+            return res.status(http_status_codes_1.StatusCodes.OK).json({ status: "success", data: null });
         });
     }
 }

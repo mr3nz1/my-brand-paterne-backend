@@ -25,7 +25,7 @@ class UserController {
                 throw new CustomError_1.default("No account registered to the given email", http_status_codes_1.StatusCodes.BAD_REQUEST);
             }
             const token = user.createJWT();
-            res.status(http_status_codes_1.StatusCodes.OK).json({ token: token });
+            res.status(http_status_codes_1.StatusCodes.OK).json({ message: "success", data: { token } });
         });
     }
     register(req, res, next) {
@@ -35,8 +35,8 @@ class UserController {
             yield user.save();
             const token = user.createJWT();
             res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                msg: "User created",
-                token,
+                status: "success",
+                data: { token },
             });
         });
     }
@@ -50,7 +50,7 @@ class UserController {
                 throw new CustomError_1.default("No account with id: " + req.params.id, http_status_codes_1.StatusCodes.BAD_REQUEST);
             }
             yield user.updateOne(req.body);
-            res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "User information updated" });
+            res.status(http_status_codes_1.StatusCodes.OK).json({ status: "success", data: null });
         });
     }
 }
