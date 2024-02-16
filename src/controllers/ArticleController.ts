@@ -30,7 +30,7 @@ class ArticleController {
 
     return res
       .status(StatusCodes.CREATED)
-      .json({ status: "success", message: "Article created" });
+      .json({ status: "success", data: null });
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
