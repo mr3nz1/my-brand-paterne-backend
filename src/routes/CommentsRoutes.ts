@@ -1,10 +1,14 @@
 import { Router } from "express";
 import CommentController from "../controllers/CommentController";
+import asyncHandler from "../middlewares/asyncHandler";
+import auth from "../middlewares/auth";
 
 const router: Router = Router();
 
-router.route("/").post(CommentController.createComment);
-router.route("/:authorId").get(CommentController.getComments);
-router.route("/:id").delete(CommentController.deleteComment);
+router.route("/").post(asyncHandler(CommentController.createComment));
+router.route("/:authorId").get(asyncHandler(CommentController.getComments));
+router
+  .route("/:id")
+  .delete(asyncHandler(auth), asyncHandler(CommentController.deleteComment));
 
 export default router;

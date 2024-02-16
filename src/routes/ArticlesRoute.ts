@@ -2,26 +2,27 @@ import { Router } from "express";
 import ArticleController from "../controllers/ArticleController";
 import fileUpload from "../utils/fileUpload";
 import auth from "../middlewares/auth";
+import asyncHandler from "../middlewares/asyncHandler";
 
 const router: Router = Router();
 
 router
   .route("/")
-  .get(auth, ArticleController.getArticles)
+  .get(asyncHandler(auth), asyncHandler(ArticleController.getArticles))
   .post(
     auth,
     fileUpload.single("bannerImage"),
-    ArticleController.createArticle
+    asyncHandler(ArticleController.createArticle)
   );
 
 router
   .route("/:id")
-  .get(auth, ArticleController.getArticle)
+  .get(auth, asyncHandler(ArticleController.getArticle))
   .patch(
-    auth,
+    asyncHandler(auth),
     fileUpload.single("bannerImage"),
-    ArticleController.updateArticle
+    asyncHandler(ArticleController.updateArticle)
   )
-  .delete(auth, ArticleController.deleteArticle);
+  .delete(asyncHandler(auth), asyncHandler(ArticleController.deleteArticle));
 
 export default router;

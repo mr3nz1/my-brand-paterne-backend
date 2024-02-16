@@ -11,139 +11,119 @@ import CommentModel from "../models/CommentModel";
 
 class ArticleController {
   public async createArticle(req: Request, res: Response, next: NextFunction) {
-    try {
-      const value = await createArticleSchema.validateAsync(req.body);
+    const value = await createArticleSchema.validateAsync(req.body);
 
-      if (!req.file)
-        throw new CustomError(
-          "Banner Image is required",
-          StatusCodes.BAD_REQUEST
-        );
+    if (!req.file)
+      throw new CustomError(
+        "Banner Image is required",
+        StatusCodes.BAD_REQUEST
+      );
 
-      const filename = req.file.filename;
+    const filename = req.file.filename;
 
-      const article = await ArticleModel.create({
-        ...req.body,
-        bannerImageUrl: req.file.filename,
-      });
+    const article = await ArticleModel.create({
+      ...req.body,
+      bannerImageUrl: req.file.filename,
+    });
 
-      await article.save();
+    await article.save();
 
-      return res.status(StatusCodes.CREATED).json({ msg: "Article created" });
-    } catch (err) {
-      return next(err);
-    }
+    return res.status(StatusCodes.CREATED).json({ msg: "Article created" });
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
-    try {
-      const articles = await ArticleModel.find({}).select(
-        "_id, title description content bannerImageUrl"
-      );
-      return res.status(StatusCodes.OK).json({
-        msg: "Success",
-        articles,
-      });
-    } catch (err) {
-      return next(err);
-    }
+    const articles = await ArticleModel.find({}).select(
+      "_id, title description content bannerImageUrl"
+    );
+    return res.status(StatusCodes.OK).json({
+      msg: "Success",
+      articles,
+    });
   }
 
   public async getArticle(req: Request, res: Response, next: NextFunction) {
-    try {
-      const articleId = req.params.id;
+    const articleId = req.params.id;
 
-      if (!articleId)
-        throw new CustomError(
-          "Please provide an article",
-          StatusCodes.BAD_REQUEST
-        );
-
-      const article = await ArticleModel.findById(articleId).select(
-        "_id, title description content bannerImageUrl"
+    if (!articleId)
+      throw new CustomError(
+        "Please provide an article",
+        StatusCodes.BAD_REQUEST
       );
 
-      if (!article)
-        throw new CustomError(
-          "No article of Id: " + articleId,
-          StatusCodes.NOT_FOUND
-        );
+    const article = await ArticleModel.findById(articleId).select(
+      "_id, title description content bannerImageUrl"
+    );
 
-      return res.status(StatusCodes.NOT_FOUND).json({
-        msg: "Success",
-        article,
-      });
-    } catch (err) {
-      next(err);
-    }
+    if (!article)
+      throw new CustomError(
+        "No article of Id: " + articleId,
+        StatusCodes.NOT_FOUND
+      );
+
+    return res.status(StatusCodes.OK).json({
+      msg: "Success",
+      article,
+    });
   }
 
   public async deleteArticle(req: Request, res: Response, next: NextFunction) {
-    try {
-      const articleId = req.params.id;
+    const articleId = req.params.id;
 
-      if (!articleId)
-        throw new CustomError(
-          "Please provide an article",
-          StatusCodes.BAD_REQUEST
-        );
+    if (!articleId)
+      throw new CustomError(
+        "Please provide an article",
+        StatusCodes.BAD_REQUEST
+      );
 
-      const article = await ArticleModel.findByIdAndDelete(articleId);
-      await CommentModel.deleteMany({ articleId });
+    const article = await ArticleModel.findByIdAndDelete(articleId);
+    await CommentModel.deleteMany({ articleId });
 
-      await fs.unlink("./uploads/" + article?.bannerImageUrl);
+    await fs.unlink("./uploads/" + article?.bannerImageUrl);
 
-      if (!article)
-        throw new CustomError(
-          "No article of Id: " + articleId,
-          StatusCodes.NOT_FOUND
-        );
+    if (!article)
+      throw new CustomError(
+        "No article of Id: " + articleId,
+        StatusCodes.NOT_FOUND
+      );
 
-      return res.status(StatusCodes.NOT_FOUND).json({
-        msg: "Success deleting article with id: " + articleId,
-      });
-    } catch (err) {
-      next(err);
-    }
+    return res.status(StatusCodes.NOT_FOUND).json({
+      msg: "Success deleting article with id: " + articleId,
+    });
   }
 
   public async updateArticle(req: Request, res: Response, next: NextFunction) {
-    try {
-      const articleId = req.params.id;
+    const articleId = req.params.id;
 
-      if (!articleId)
-        throw new CustomError(
-          "Please provide an article",
-          StatusCodes.BAD_REQUEST
-        );
+    if (!articleId)
+      throw new CustomError(
+        "Please provide an article",
+        StatusCodes.BAD_REQUEST
+      );
 
-      const value = await updateArticleSchema.validateAsync(req.body);
+    const value = await updateArticleSchema.validateAsync(req.body);
 
-      const article = await ArticleModel.findById(articleId);
+    const article = await ArticleModel.findById(articleId);
 
-      if (!article)
-        throw new CustomError(
-          "Can't find article with ID: " + articleId,
-          StatusCodes.NOT_FOUND
-        );
+    if (!article)
+      throw new CustomError(
+        "Can't find article with ID: " + articleId,
+        StatusCodes.NOT_FOUND
+      );
 
-      if (req.file) {
-        await fs.unlink("./uploads/" + article?.bannerImageUrl);
+    if (req.file) {
+      await fs.unlink("./uploads/" + article?.bannerImageUrl);
 
-        await article?.updateOne({
-          ...req.body,
-          bannerImageUrl: req.file.filename,
-        });
-      } else {
-        await article?.updateOne({ ...req.body });
-      }
-
-      await article?.save();
-
-      res.status(StatusCodes.OK).json({ msg: "Successfully updated" });
-    } catch (err) {
-      next(err);
+      await article?.updateOne({
+        ...req.body,
+        bannerImageUrl: req.file.filename,
+      });
+    } else {
+      await article?.updateOne({ ...req.body });
     }
+
+    await article?.save();
+
+    res.status(StatusCodes.OK).json({ msg: "Successfully updated" });
   }
 }
 

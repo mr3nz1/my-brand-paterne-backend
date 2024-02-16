@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import {
   createTaskUserSchema,
-  updateTaskUserSchema,
 } from "../validation/TaskValidation";
-import ArticleModel from "../models/ArticleModel";
 import TaskModel from "../models/TaskModel";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors/CustomError";
@@ -11,54 +9,42 @@ import { updateArticleSchema } from "../validation/ArticleValidation";
 
 class TaskController {
   public async createTask(req: Request, res: Response, next: NextFunction) {
-    try {
-      console.log(req.body);
-      const taskData = await createTaskUserSchema.validateAsync(req.body);
+    console.log(req.body);
+    const taskData = await createTaskUserSchema.validateAsync(req.body);
 
-      const task = await TaskModel.create({ ...taskData });
+    const task = await TaskModel.create({ ...taskData });
 
-      await task.save();
+    await task.save();
 
-      return res.status(StatusCodes.CREATED).json({
-        msg: "Success",
-      });
-    } catch (err) {
-      next(err);
-    }
+    return res.status(StatusCodes.CREATED).json({
+      msg: "Success",
+    });
   }
 
   public async getTasks(req: Request, res: Response, next: NextFunction) {
-    try {
-      const tasks = await TaskModel.find({});
+    const tasks = await TaskModel.find({});
 
-      res.status(StatusCodes.OK).json({
-        msg: "Success",
-        tasks,
-      });
-    } catch (err) {
-      next(err);
-    }
+    res.status(StatusCodes.OK).json({
+      msg: "Success",
+      tasks,
+    });
   }
 
   public async deleteTask(req: Request, res: Response, next: NextFunction) {
-    try {
-      const taskId = req.params.id;
+    const taskId = req.params.id;
 
-      if (!taskId)
-        throw new CustomError("Task Id is required", StatusCodes.BAD_REQUEST);
+    if (!taskId)
+      throw new CustomError("Task Id is required", StatusCodes.BAD_REQUEST);
 
-      const task = await TaskModel.findByIdAndDelete(taskId);
+    const task = await TaskModel.findByIdAndDelete(taskId);
 
-      if (!task)
-        throw new CustomError(
-          "No task with Id: " + taskId,
-          StatusCodes.NOT_FOUND
-        );
+    if (!task)
+      throw new CustomError(
+        "No task with Id: " + taskId,
+        StatusCodes.NOT_FOUND
+      );
 
-      return res.status(StatusCodes.OK).json({ msg: "Successfuly deleted" });
-    } catch (err) {
-      next(err);
-    }
+    return res.status(StatusCodes.OK).json({ msg: "Successfuly deleted" });
   }
 
   public async updateTask(req: Request, res: Response, next: NextFunction) {

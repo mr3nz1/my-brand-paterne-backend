@@ -6,55 +6,40 @@ import CustomError from "../errors/CustomError";
 
 class MessageController {
   public async createMessage(req: Request, res: Response, next: NextFunction) {
-    try {
-      const messageData = await MessageValidationSchema.validateAsync(req.body);
+    const messageData = await MessageValidationSchema.validateAsync(req.body);
 
-      const message = await MessageModel.create(messageData);
+    const message = await MessageModel.create(messageData);
 
-      message.save();
+    message.save();
 
-      return res.status(StatusCodes.CREATED).json({
-        msg: "Message created",
-      });
-    } catch (err) {
-      next(err);
-    }
+    return res.status(StatusCodes.CREATED).json({
+      msg: "Message created",
+    });
   }
 
   public async getMessages(req: Request, res: Response, next: NextFunction) {
-    try {
-      const messages = await MessageModel.find({});
-      return res.status(StatusCodes.OK).json({
-        msg: "Success",
-        messages,
-      });
-    } catch (err) {
-      next(err);
-    }
+    const messages = await MessageModel.find({});
+    return res.status(StatusCodes.OK).json({
+      msg: "Success",
+      messages,
+    });
   }
 
   public async deleteMessage(req: Request, res: Response, next: NextFunction) {
-    try {
-      const messageId = req.params.id;
+    const messageId = req.params.id;
 
-      if (!messageId)
-        throw new CustomError(
-          "Message Id is required",
-          StatusCodes.BAD_REQUEST
-        );
+    if (!messageId)
+      throw new CustomError("Message Id is required", StatusCodes.BAD_REQUEST);
 
-      const message = await MessageModel.findByIdAndDelete(messageId);
+    const message = await MessageModel.findByIdAndDelete(messageId);
 
-      if (!message)
-        throw new CustomError(
-          "Message of id: " + messageId,
-          StatusCodes.NOT_FOUND
-        );
+    if (!message)
+      throw new CustomError(
+        "Message of id: " + messageId,
+        StatusCodes.NOT_FOUND
+      );
 
-      return res.status(StatusCodes.OK).json({ msg: "Successfully deleted" });
-    } catch (err) {
-      next();
-    }
+    return res.status(StatusCodes.OK).json({ msg: "Successfully deleted" });
   }
 }
 
