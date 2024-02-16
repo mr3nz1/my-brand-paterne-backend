@@ -25,7 +25,8 @@ class TaskController {
             const task = yield TaskModel_1.default.create(Object.assign({}, taskData));
             yield task.save();
             return res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                msg: "Success",
+                status: "success",
+                data: null,
             });
         });
     }
@@ -33,8 +34,8 @@ class TaskController {
         return __awaiter(this, void 0, void 0, function* () {
             const tasks = yield TaskModel_1.default.find({});
             res.status(http_status_codes_1.StatusCodes.OK).json({
-                msg: "Success",
-                tasks,
+                status: "success",
+                data: { tasks },
             });
         });
     }
@@ -46,7 +47,7 @@ class TaskController {
             const task = yield TaskModel_1.default.findByIdAndDelete(taskId);
             if (!task)
                 throw new CustomError_1.default("No task with Id: " + taskId, http_status_codes_1.StatusCodes.NOT_FOUND);
-            return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfuly deleted" });
+            return res.status(http_status_codes_1.StatusCodes.OK).json({ message: "success", data: null });
         });
     }
     updateTask(req, res, next) {
@@ -66,7 +67,8 @@ class TaskController {
                 console.log(task);
                 console.log(taskData);
                 return res.status(http_status_codes_1.StatusCodes.OK).json({
-                    msg: "Successfully updated",
+                    message: "success",
+                    data: null,
                 });
             }
             catch (err) {

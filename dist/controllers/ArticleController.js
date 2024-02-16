@@ -27,15 +27,17 @@ class ArticleController {
             const filename = req.file.filename;
             const article = yield ArticleModel_1.default.create(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename }));
             yield article.save();
-            return res.status(http_status_codes_1.StatusCodes.CREATED).json({ msg: "Article created" });
+            return res
+                .status(http_status_codes_1.StatusCodes.CREATED)
+                .json({ status: "success", message: "Article created" });
         });
     }
     getArticles(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const articles = yield ArticleModel_1.default.find({}).select("_id, title description content bannerImageUrl");
             return res.status(http_status_codes_1.StatusCodes.OK).json({
-                msg: "Success",
-                articles,
+                status: "success",
+                data: { articles },
             });
         });
     }
@@ -48,8 +50,8 @@ class ArticleController {
             if (!article)
                 throw new CustomError_1.default("No article of Id: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
             return res.status(http_status_codes_1.StatusCodes.OK).json({
-                msg: "Success",
-                article,
+                status: "success",
+                data: { article },
             });
         });
     }
@@ -64,7 +66,8 @@ class ArticleController {
             if (!article)
                 throw new CustomError_1.default("No article of Id: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({
-                msg: "Success deleting article with id: " + articleId,
+                status: "success deleting article with id: " + articleId,
+                data: null,
             });
         });
     }
@@ -85,7 +88,7 @@ class ArticleController {
                 yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign({}, req.body)));
             }
             yield (article === null || article === void 0 ? void 0 : article.save());
-            res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfully updated" });
+            res.status(http_status_codes_1.StatusCodes.OK).json({ status: "success", data: null });
         });
     }
 }

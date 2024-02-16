@@ -13,7 +13,6 @@ import errorHandler from "./middlewares/errorHandler";
 import bodyParser from "body-parser";
 import connectDB from "./db/connectDB";
 import { StatusCodes } from "http-status-codes";
-import path from "path";
 import morgan from "morgan";
 
 class Server {

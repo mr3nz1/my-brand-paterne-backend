@@ -22,7 +22,7 @@ class UserController {
 
     const token = user.createJWT();
 
-    res.status(StatusCodes.OK).json({ token: token });
+    res.status(StatusCodes.OK).json({ message: "success", data: { token } });
   }
 
   public async register(req: Request, res: Response, next: NextFunction) {
@@ -34,8 +34,8 @@ class UserController {
     const token = user.createJWT();
 
     res.status(StatusCodes.CREATED).json({
-      msg: "User created",
-      token,
+      status: "success",
+      data: { token },
     });
   }
 
@@ -55,7 +55,7 @@ class UserController {
 
     await user.updateOne(req.body);
 
-    res.status(StatusCodes.OK).json({ msg: "User information updated" });
+    res.status(StatusCodes.OK).json({ status: "success", data: null });
   }
 }
 
