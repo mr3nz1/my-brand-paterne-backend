@@ -19,53 +19,38 @@ const http_status_codes_1 = require("http-status-codes");
 class UserController {
     login(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const value = yield UserValidations_1.loginUserSchema.validateAsync(req.body);
-                const user = new UserModel_1.default(req.body);
-                if (!user) {
-                    throw new CustomError_1.default("No account registered to the given email", http_status_codes_1.StatusCodes.BAD_REQUEST);
-                }
-                const token = user.createJWT();
-                res.status(http_status_codes_1.StatusCodes.OK).json({ token: token });
+            const value = yield UserValidations_1.loginUserSchema.validateAsync(req.body);
+            const user = new UserModel_1.default(req.body);
+            if (!user) {
+                throw new CustomError_1.default("No account registered to the given email", http_status_codes_1.StatusCodes.BAD_REQUEST);
             }
-            catch (err) {
-                next(err);
-            }
+            const token = user.createJWT();
+            res.status(http_status_codes_1.StatusCodes.OK).json({ token: token });
         });
     }
     register(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const value = yield UserValidations_1.registerUserSchema.validateAsync(req.body);
-                const user = yield UserModel_1.default.create(req.body);
-                yield user.save();
-                const token = user.createJWT();
-                res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                    msg: "User created",
-                    token,
-                });
-            }
-            catch (err) {
-                next(err);
-            }
+            const value = yield UserValidations_1.registerUserSchema.validateAsync(req.body);
+            const user = yield UserModel_1.default.create(req.body);
+            yield user.save();
+            const token = user.createJWT();
+            res.status(http_status_codes_1.StatusCodes.CREATED).json({
+                msg: "User created",
+                token,
+            });
         });
     }
     update(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const value = yield UserValidations_1.registerUserSchema.validateAsync(req.body);
-                const user = yield UserModel_1.default.findOne({
-                    _id: req.params.id,
-                });
-                if (!user) {
-                    throw new CustomError_1.default("No account with id: " + req.params.id, http_status_codes_1.StatusCodes.BAD_REQUEST);
-                }
-                yield user.updateOne(req.body);
-                res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "User information updated" });
+            const value = yield UserValidations_1.registerUserSchema.validateAsync(req.body);
+            const user = yield UserModel_1.default.findOne({
+                _id: req.params.id,
+            });
+            if (!user) {
+                throw new CustomError_1.default("No account with id: " + req.params.id, http_status_codes_1.StatusCodes.BAD_REQUEST);
             }
-            catch (err) {
-                next(err);
-            }
+            yield user.updateOne(req.body);
+            res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "User information updated" });
         });
     }
 }

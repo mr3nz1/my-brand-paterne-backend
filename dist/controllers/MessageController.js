@@ -19,47 +19,32 @@ const CustomError_1 = __importDefault(require("../errors/CustomError"));
 class MessageController {
     createMessage(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const messageData = yield MessageValidation_1.default.validateAsync(req.body);
-                const message = yield MessageModel_1.default.create(messageData);
-                message.save();
-                return res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                    msg: "Message created",
-                });
-            }
-            catch (err) {
-                next(err);
-            }
+            const messageData = yield MessageValidation_1.default.validateAsync(req.body);
+            const message = yield MessageModel_1.default.create(messageData);
+            message.save();
+            return res.status(http_status_codes_1.StatusCodes.CREATED).json({
+                msg: "Message created",
+            });
         });
     }
     getMessages(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const messages = yield MessageModel_1.default.find({});
-                return res.status(http_status_codes_1.StatusCodes.OK).json({
-                    msg: "Success",
-                    messages,
-                });
-            }
-            catch (err) {
-                next(err);
-            }
+            const messages = yield MessageModel_1.default.find({});
+            return res.status(http_status_codes_1.StatusCodes.OK).json({
+                msg: "Success",
+                messages,
+            });
         });
     }
     deleteMessage(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const messageId = req.params.id;
-                if (!messageId)
-                    throw new CustomError_1.default("Message Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
-                const message = yield MessageModel_1.default.findByIdAndDelete(messageId);
-                if (!message)
-                    throw new CustomError_1.default("Message of id: " + messageId, http_status_codes_1.StatusCodes.NOT_FOUND);
-                return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfully deleted" });
-            }
-            catch (err) {
-                next();
-            }
+            const messageId = req.params.id;
+            if (!messageId)
+                throw new CustomError_1.default("Message Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+            const message = yield MessageModel_1.default.findByIdAndDelete(messageId);
+            if (!message)
+                throw new CustomError_1.default("Message of id: " + messageId, http_status_codes_1.StatusCodes.NOT_FOUND);
+            return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfully deleted" });
         });
     }
 }

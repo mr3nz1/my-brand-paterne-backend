@@ -17,18 +17,18 @@ async function errorHandler(
 
     return res
       .status(customError.statusCode)
-      .json({ error: customError.message });
+      .json({ status: "error", message: customError.message });
   } else if (err instanceof ValidationError) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: err.message });
+      .json({ status: "error", message: err.message });
   } else {
     const customError = {
       message: err.message || "Something went wrong. Try again later.",
     };
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: customError.message });
+      .json({ status: "error", message: customError.message });
   }
 }
 

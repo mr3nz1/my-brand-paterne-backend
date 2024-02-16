@@ -24,12 +24,12 @@ function errorHandler(err, req, res, next) {
             };
             return res
                 .status(customError.statusCode)
-                .json({ error: customError.message });
+                .json({ status: "error", message: customError.message });
         }
         else if (err instanceof joi_1.ValidationError) {
             return res
                 .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)
-                .json({ error: err.message });
+                .json({ status: "error", message: err.message });
         }
         else {
             const customError = {
@@ -37,7 +37,7 @@ function errorHandler(err, req, res, next) {
             };
             return res
                 .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)
-                .json({ error: customError.message });
+                .json({ status: "error", message: customError.message });
         }
     });
 }

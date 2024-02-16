@@ -13,8 +13,6 @@ import errorHandler from "./middlewares/errorHandler";
 import bodyParser from "body-parser";
 import connectDB from "./db/connectDB";
 import { StatusCodes } from "http-status-codes";
-import rfs from "rotating-file-stream";
-import path from "path";
 import morgan from "morgan";
 
 class Server {
@@ -28,12 +26,7 @@ class Server {
     app.use(express.json());
     app.use(bodyParser.urlencoded({ extended: false }));
 
-    let accessLogStream = rfs.createStream("access.log", {
-      interval: "1d", // rotate daily
-      path: path.join(__dirname, "log"),
-    });
-
-    app.use(morgan("combined", { stream: accessLogStream }));
+    app.use(morgan("combined"));
 
     dotenv.config();
 

@@ -20,48 +20,33 @@ const ArticleValidation_1 = require("../validation/ArticleValidation");
 class TaskController {
     createTask(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                console.log(req.body);
-                const taskData = yield TaskValidation_1.createTaskUserSchema.validateAsync(req.body);
-                const task = yield TaskModel_1.default.create(Object.assign({}, taskData));
-                yield task.save();
-                return res.status(http_status_codes_1.StatusCodes.CREATED).json({
-                    msg: "Success",
-                });
-            }
-            catch (err) {
-                next(err);
-            }
+            console.log(req.body);
+            const taskData = yield TaskValidation_1.createTaskUserSchema.validateAsync(req.body);
+            const task = yield TaskModel_1.default.create(Object.assign({}, taskData));
+            yield task.save();
+            return res.status(http_status_codes_1.StatusCodes.CREATED).json({
+                msg: "Success",
+            });
         });
     }
     getTasks(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const tasks = yield TaskModel_1.default.find({});
-                res.status(http_status_codes_1.StatusCodes.OK).json({
-                    msg: "Success",
-                    tasks,
-                });
-            }
-            catch (err) {
-                next(err);
-            }
+            const tasks = yield TaskModel_1.default.find({});
+            res.status(http_status_codes_1.StatusCodes.OK).json({
+                msg: "Success",
+                tasks,
+            });
         });
     }
     deleteTask(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const taskId = req.params.id;
-                if (!taskId)
-                    throw new CustomError_1.default("Task Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
-                const task = yield TaskModel_1.default.findByIdAndDelete(taskId);
-                if (!task)
-                    throw new CustomError_1.default("No task with Id: " + taskId, http_status_codes_1.StatusCodes.NOT_FOUND);
-                return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfuly deleted" });
-            }
-            catch (err) {
-                next(err);
-            }
+            const taskId = req.params.id;
+            if (!taskId)
+                throw new CustomError_1.default("Task Id is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+            const task = yield TaskModel_1.default.findByIdAndDelete(taskId);
+            if (!task)
+                throw new CustomError_1.default("No task with Id: " + taskId, http_status_codes_1.StatusCodes.NOT_FOUND);
+            return res.status(http_status_codes_1.StatusCodes.OK).json({ msg: "Successfuly deleted" });
         });
     }
     updateTask(req, res, next) {
