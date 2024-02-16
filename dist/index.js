@@ -25,6 +25,7 @@ const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const connectDB_1 = __importDefault(require("./db/connectDB"));
 const http_status_codes_1 = require("http-status-codes");
+const morgan_1 = __importDefault(require("morgan"));
 class Server {
     constructor() {
         this.init();
@@ -34,6 +35,7 @@ class Server {
     init() {
         app.use(express_1.default.json());
         app.use(body_parser_1.default.urlencoded({ extended: false }));
+        app.use((0, morgan_1.default)("combined"));
         dotenv_1.default.config();
         app.get("/", (req, res) => {
             res.send("Typescript Classes Express Project");

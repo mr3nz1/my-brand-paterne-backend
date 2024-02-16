@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const TaskController_1 = __importDefault(require("../controllers/TaskController"));
 const auth_1 = __importDefault(require("../middlewares/auth"));
+const asyncHandler_1 = __importDefault(require("../middlewares/asyncHandler"));
 const router = (0, express_1.Router)();
 router
     .route("/")
-    .get(auth_1.default, TaskController_1.default.getTasks)
-    .post(auth_1.default, TaskController_1.default.createTask);
+    .get((0, asyncHandler_1.default)(auth_1.default), (0, asyncHandler_1.default)(TaskController_1.default.getTasks))
+    .post((0, asyncHandler_1.default)(auth_1.default), (0, asyncHandler_1.default)(TaskController_1.default.createTask));
 router
     .route("/:id")
-    .delete(auth_1.default, TaskController_1.default.deleteTask)
-    .patch(auth_1.default, TaskController_1.default.updateTask);
+    .delete((0, asyncHandler_1.default)(auth_1.default), (0, asyncHandler_1.default)(TaskController_1.default.deleteTask))
+    .patch((0, asyncHandler_1.default)(auth_1.default), (0, asyncHandler_1.default)(TaskController_1.default.updateTask));
 exports.default = router;
