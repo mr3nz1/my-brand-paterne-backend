@@ -7,7 +7,7 @@
     "start": "nodemon dist/index.js",
     "dev": "nodemon --exec ts-node",
     "watch:ts": "npx tsc --watch",
-    "build": "tsc",
+    "build": "npx tsc",
     "lint:doc": "npx @redocly/cli lint openapi.yaml",
     "gen:doc": "npx @redocly/cli preview-docs openapi.yaml",
     "build:doc": "npx @redocly/cli build-docs openapi.yaml --output ./docs/index.html"
