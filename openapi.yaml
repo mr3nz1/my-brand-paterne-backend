@@ -1,35 +1,1316 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
-  title: Redocly Museum API
-  description: An imaginary, but delightful Museum API for interacting with museum services and information. Built with love by Redocly.
-  version: 1.0.0
+  version: "v1.0.1"
+  title: "Api-Documentation"
+  description: "Welcome to the documentation for the API for my API."
   contact:
-    email: eloi.chrysanthe@gmail.com
-    # url: "https://redocly.com/docs/cli/"
+    name: "Personal Portfolio"
+    email: murenzi419@gmail.com
+    url: "https://github.com/mr3nz1/my-brand-paterne-backend"
 servers:
-  - url: 127.0.0.1:20242/api
+  - url: "http://localhost:3000/api/v1"
+    description: Development server
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Users
+  - name: Articles
+  - name: Comments
+  - name: Tasks
+  - name: Messages
+
+paths:
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: "Login User"
+      description: "Verifies a user credentials and returns a token."
+      operationId: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: "Email of the user."
+                  example: "email@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  description: "Password of the user."
+                  example: "password"
+      responses:
+        "200":
+          description: "Successfully logged in the user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    example:
+                      {
+                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWNlNDA4ODE1MzkzMTgxMjY5NjMxOTIiLCJuYW1lIjoiTXVyZW56aSBQYXRlcm5lIiwiZW1haWwiOiJtdXJlbnppNDE5QGdtYWlsLmNvbSIsImlhdCI6MTcwODM1NjM4MSwiZXhwIjoxNzEwOTQ4MzgxfQ.cebgTPVeGDqOfsMCaUHoFev1RP-pxnRu94G-3-RCi0o",
+                      }
+
+        "403":
+          description: "Bad credentials"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: "Register user"
+      description: "Saves credentials to the database and returns a token"
+      operationId: Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  format: name
+                  description: "Full names of the user"
+                  example: "John Doe"
+                email:
+                  type: string
+                  format: email
+                  description: "Email of the user."
+                  example: "john@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  description: "Password of the user."
+                  example: "secretPassword@12312"
+      responses:
+        "200":
+          description: "Successfully registered the user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    example:
+                      {
+                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWNlNDA4ODE1MzkzMTgxMjY5NjMxOTIiLCJuYW1lIjoiTXVyZW56aSBQYXRlcm5lIiwiZW1haWwiOiJtdXJlbnppNDE5QGdtYWlsLmNvbSIsImlhdCI6MTcwODM1NjM4MSwiZXhwIjoxNzEwOTQ4MzgxfQ.cebgTPVeGDqOfsMCaUHoFev1RP-pxnRu94G-3-RCi0o",
+                      }
+
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+  /users/getUserInfo:
+    get:
+      tags:
+        - Users
+      summary: "Get User Info"
+      description: "Returns names and the email of user who's logged in"
+      operationId: getUserInfo
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      responses:
+        "200":
+          description: "Successfully registered the user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: "John Doe"
+                      email:
+                        type: string
+                        example: "johndoe@gmail.com"
+
+        "403":
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+
+  /articles/:
+    post:
+      tags:
+        - Articles
+      summary: "Create article"
+      description: "Adds an article to the database"
+      operationId: addArticle
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: articleId
+          in: params
+          required: true
+          description: "Id for the article"
+          example: "65cbd47fcd78a22aaa14e812"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: "Title of the article"
+                  example: "React Hooks Cheat Sheet"
+                description:
+                  type: string
+                  description: "A summary about the article"
+                  example: "Hooks, their use and best practices in ReactJs"
+                content:
+                  type: string
+                  description: "The full content of the article"
+                bannerImageUrl:
+                  type: file
+                  description: A banner image for styling
+                isPublished:
+                  type: boolean
+                  description: Published or not
+      responses:
+        "200":
+          description: "Article created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "A descriptive message indicating the success status."
+                    example: "Article created successfully!"
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      data:
+                        type: string
+                        example: null
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Internal server error"
+
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+    get:
+      tags:
+        - Articles
+      summary: "Get articles"
+      description: "Get articles from the db"
+      operationId: getArticles
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: articleId
+          in: params
+          required: true
+          description: "Id for the article"
+          example: "65cbd47fcd78a22aaa14e812"
+      requestBody:
+      responses:
+        "200":
+          description: "Article created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "A descriptive message indicating the success status."
+                    example: "Article created successfully!"
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      data:
+                        type: object
+                        example:
+                          {
+                            articles:
+                              [
+                                {
+                                  _id: "65cf61377818ede2c9d0863a",
+                                  title: "Learn React",
+                                  description: "A frontend web library for developing web applications.",
+                                  content: "<p><bold>Bold things</bold>",
+                                  bannerImageUrl: "507eea2a-f5da-4b2f-a68a-51e9c70805e8.jpg",
+                                },
+                                {
+                                  _id: "65cf61700093ab346875ea04",
+                                  title: "Learn React",
+                                  description: "A frontend web library for developing web applications.",
+                                  content: "<p><bold>Bold things</bold>",
+                                  bannerImageUrl: "44d40515-c925-4c48-a441-4bdea2cd0d33.jpg",
+                                },
+                                {
+                                  _id: "65d4726bbf52358c6316f7dd",
+                                  title: "Learn React",
+                                  description: "A frontend web library for developing web applications.",
+                                  content: "<p><bold>Bold things</bold>",
+                                  bannerImageUrl: "f2538799-b625-4674-9996-949dc090a5b7.jpg",
+                                },
+                              ],
+                          }
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Internal server error"
+
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+  /articles/{:id}:
+    get:
+      tags:
+        - Articles
+      summary: "Create article"
+      description: "Adds an article to the database"
+      operationId: getSingleArticle
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: articleId
+          in: params
+          required: true
+          description: "Id for the article"
+          example: "65cbd47fcd78a22aaa14e812"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: "Article Id"
+                  example: "65cf61377818ede2c9d0863a"
+      responses:
+        "200":
+          description: "Article created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: "A descriptive message indicating the success status."
+                    example: "success"
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      article:
+                        type: object
+                        example:
+                          {
+                            _id: "65cf61377818ede2c9d0863a",
+                            title: "Learn React",
+                            description: "A frontend web library for developing web applications.",
+                            content: "<p><bold>Bold things</bold>",
+                            bannerImageUrl: "507eea2a-f5da-4b2f-a68a-51e9c70805e8.jpg",
+                          }
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Internal server error"
+
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+    delete:
+      tags:
+        - Articles
+      summary: "Delete article"
+      description: "Delete an article from the database"
+      operationId: deleteSingleArticle
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: articleId
+          in: params
+          required: true
+          description: "Id for the article"
+          example: "65cbd47fcd78a22aaa14e812"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: "Article Id"
+                  example: "65cf61377818ede2c9d0863a"
+      responses:
+        "200":
+          description: "Article created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: status
+                    description: "A message indicating the success status."
+                    example: "success"
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      data:
+                        type: null
+
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: Cast to ObjectId failed for value \"65cc826ee02e28be68da4aa\" (type string) at path \"_id\" for model \"Article\"
+
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+    patch:
+      tags:
+        - Articles
+      summary: "Update article"
+      description: "Adds an article to the database"
+      operationId: updateSingleArticle
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: articleId
+          in: params
+          required: true
+          description: "Id for the article"
+          example: "65cbd47fcd78a22aaa14e812"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: "Title of the article"
+                  example: "React Hooks Cheat Sheet"
+                description:
+                  type: string
+                  description: "A summary about the article"
+                  example: "Hooks, their use and best practices in ReactJs"
+                content:
+                  type: string
+                  description: "The full content of the article"
+                bannerImageUrl:
+                  type: file
+                  description: A banner image for styling
+                  example: "file"
+                isPublished:
+                  type: boolean
+                  description: Published or not
+      responses:
+        "200":
+          description: "Article created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: "A descriptive message indicating the success status."
+                    example: "success"
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      article:
+                        type: string
+                        example: null
+        "500":
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Internal server error"
+
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+        "404":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Can't find article with ID: {articleId}"
+  /comments/:
+    post:
+      tags:
+        - Comments
+      summary: "Create comment"
+      description: "Adds a comment to an article"
+      operationId: addComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                articleId:
+                  type: string
+                  description: Id of the article to which you are commenting
+                  example: 65cbd47fcd78a22aaa14e812
+                name:
+                  type: string
+                  description: Name of the person commenting
+                  example: John Doe
+                email:
+                  type: string
+                  description: Email of the person commenting
+                  example: johndoe@gmail.com
+                comment:
+                  type: string
+                  description: The comment
+                  example: Great article, and informative
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: \"comment\" is required
+        "404":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "No article of Id: {articleId}. You can not add a comment to an unexistent article."
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example: null
+  /comments/{articleId}:
+    get:
+      tags:
+        - Comments
+      summary: Gets comments
+      description: Get all comments of an article
+      operationId: getComments
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: Cast to ObjectId failed for value \'65cc69ef8e5d7f9a47ba13b\' (type string) at path \'articleId\' for model \'Comment\'"
+        "404":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: page not found
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "can't find page"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: articles are returned
+                    example: 
+                      {
+                        comments:
+                          [
+                            {
+                              _id: "65d4ce480bddea4a30177264",
+                              articleId: "65cf61700093ab346875ea04",
+                              name: "John Doe",
+                              email: "johndoe@gmail.com",
+                              comment: "Great article, and informative",
+                              createdAt: "2024-02-20T16:07:36.454Z",
+                              updatedAt: "2024-02-20T16:07:36.454Z",
+                              __v: 0
+                            }
+                          ]
+                      }
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+    delete:
+      tags:
+        - Comments
+      summary: Deletes comments
+      description: Deletes comment of with an id that has been passed in
+      operationId: deleteComment
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: Cast to ObjectId failed for value \'65cc69ef8e5d7f9a47ba13b\' (type string) at path \'articleId\' for model \'Comment\'"
+        "404":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: page not found
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "can't find page"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: null return type
+                    example: null
+        "403":
+          description: "Authentication Invalid"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    description: "A message indicating what is wrong"
+                    example: "Authentication Invalid"
+
+  /tasks/:
+    post:
+      tags:
+        - Tasks
+      summary: "Create task"
+      description: "Adds a task"
+      operationId: addTask
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Task title
+                  example: Create documentation
+                content:
+                  type: string
+                  description: description of you're task
+                  example: Use either redoc | apiary to create descriptive documentation
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: \"content\" is required
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example: null
+    get:
+      tags:
+        - Tasks
+      summary: "Get tasks"
+      description: "Gets all tasks"
+      operationId: getTasks
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      responses:
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: tasks
+                    example: 
+                      {
+                        [
+                          {
+                              "_id": "65ce40b11539318126963195",
+                              "title": "Comments",
+                              "content": "Implement crud for the comments",
+                              "createdAt": "2024-02-15T16:49:53.179Z",
+                              "updatedAt": "2024-02-15T16:49:53.179Z",
+                              "__v": 0
+                          },
+                          {
+                              "_id": "65ce40d11539318126963199",
+                              "title": "Comments",
+                              "content": "Implement crud for the comments",
+                              "createdAt": "2024-02-15T16:50:25.911Z",
+                              "updatedAt": "2024-02-15T16:50:25.911Z",
+                              "__v": 0
+                          },
+                          {
+                              "_id": "65d4d4dc94f291152a38d013",
+                              "title": "Comments",
+                              "content": "Implement crud for the comments",
+                              "createdAt": "2024-02-20T16:35:40.091Z",
+                              "updatedAt": "2024-02-20T16:35:40.091Z",
+                              "__v": 0
+                          }
+                        ]
+                      }
+  /tasks/{taskId}:
+    delete:
+      tags:
+        - Tasks
+      summary: "Delete task"
+      description: "Delete a task"
+      operationId: deleteTask
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: taskId
+          in: params
+          required: true
+          description: "Id for the task"
+          example: "65cbd47fcd78a22aaa14e812"
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: \"content\" is required
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example: null
+  /messages/:
+    post:
+      tags:
+        - messages
+      summary: "Create message"
+      description: "Creates a message to the Admis"
+      operationId: addMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Sender name
+                  example: John Doe
+                email:
+                  type: string
+                  description: sender's email
+                  example: johnDoe@gmail.com
+                message:
+                  type: string
+                  description: sender's message
+                  example: Great work on your porfolio.
+
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: \"content\" is required
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example:
+                      {
+                        "messages":
+                          [
+                            {
+                              "_id": "65ccbd75b918b7f413cf7930",
+                              "name": "John Doe",
+                              "email": "john@gmail.com",
+                              "message": "Great work on your porfolio.",
+                              "createdAt": "2024-02-14T13:17:42.003Z",
+                              "updatedAt": "2024-02-14T13:17:42.003Z",
+                              "__v": 0
+                            },
+                            {
+                              "_id": "65ce421d15393181269631af",
+                              "name": "John Doe",
+                              "email": "john@gmail.com",
+                              "message": "Great work on your porfolio.",
+                              "createdAt": "2024-02-15T16:55:57.730Z",
+                              "updatedAt": "2024-02-15T16:55:57.730Z",
+                              "__v": 0
+                            },
+                            {
+                              "_id": "65d4e41194f291152a38d01a",
+                              "name": "John Doe",
+                              "email": "john@gmail.com",
+                              "message": "Great work on your porfolio.",
+                              "createdAt": "2024-02-20T17:40:33.691Z",
+                              "updatedAt": "2024-02-20T17:40:33.691Z",
+                              "__v": 0
+                            },
+                            {
+                              "_id": "65d4e80f94f291152a38d01d",
+                              "name": "John Doe",
+                              "email": "john@gmail.com",
+                              "message": "Great work on your porfolio.",
+                              "createdAt": "2024-02-20T17:57:35.301Z",
+                              "updatedAt": "2024-02-20T17:57:35.301Z",
+                              "__v": 0
+                            }
+                            ]
+                        }
+    get:
+      tags:
+        - messages
+      summary: "Get messages"
+      description: "Get all messages"
+      operationId: getMessages
+      requestBody:
+        required: true
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: invalid signature
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example: null
+    delete:
+      tags:
+        - messages
+      summary: "Delete message"
+      description: "Delete a message"
+      operationId: deleteMessage
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: "token you've been given after authenticating"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        - name: messageId
+          in: params
+          required: true
+          description: "Id for the message"
+          example: "65cbd47fcd78a22aaa14e812"
+      
+      requestBody:
+        required: true
+      responses:
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: error
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: invalid signature
+        "403":
+          description: Not found error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Did not find article to comment on
+                    example: error
+                  message:
+                    type: string
+                    description: error during operation
+                    example: "Authentication Invalid"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: successful operation
+                    example: success
+                  data:
+                    type: object
+                    description: nothing is returned as data after a successful commenting
+                    example: null
+    
 components:
   securitySchemes:
-    JWT:
-      description: JWT bearer token description...
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-tags:
-  - name: Ping
-    description: Contains an api to ping to the server
-  - name: Blog
-    description: These're the apis that will be used with the blog section
-  - name: Project
-    description: apis that will be used on the parts of projects
-paths:
-  /ping:
-    get:
-      summary: Ping the serve
-      description: This is an api to ping the app server.
-      operationId: pinServer
-      # x-hideTryItPanel: false
-      tags:
-        - Ping
-security:
-  - JWT: []
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Auth-Token

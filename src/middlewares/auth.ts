@@ -22,7 +22,7 @@ async function auth(
   if (!authHeader || !String(authHeader).startsWith("Bearer ")) {
     const error = new CustomError(
       "Authentication Invalid",
-      StatusCodes.BAD_REQUEST
+      StatusCodes.FORBIDDEN
     );
     return next(error);
   }
@@ -30,17 +30,17 @@ async function auth(
   const token = authHeader.split(" ")[1];
 
   const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY!;
+
+  // handle the malformed error
+
   const payload = jwt.verify(token, JWT_SECRET_KEY) as AuthenticatedUser;
 
   req.user = {
     userId: payload.userId,
+    token,
   };
 
-  next();
-  const error = new CustomError(
-    "Authentication invalid",
-    StatusCodes.BAD_REQUEST
-  );
+  return next();
 }
 
 export default auth;

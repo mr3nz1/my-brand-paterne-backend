@@ -6,7 +6,7 @@ import auth from "../middlewares/auth";
 const router: Router = Router();
 
 router.route("/").post(asyncHandler(CommentController.createComment));
-router.route("/:authorId").get(asyncHandler(CommentController.getComments));
+router.route("/:articleId").get(asyncHandler(CommentController.getComments));
 router
   .route("/:id")
   .delete(asyncHandler(auth), asyncHandler(CommentController.deleteComment));

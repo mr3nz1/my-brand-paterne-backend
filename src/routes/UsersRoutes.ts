@@ -7,6 +7,11 @@ const router: Router = Router();
 
 router.post("/login", asyncHandler(UserController.login));
 router.post("/register", asyncHandler(UserController.register));
+router.get(
+  "/getUserInfo",
+  asyncHandler(auth),
+  asyncHandler(UserController.getUserInfo)
+);
 router.patch(
   "/update/:id",
   asyncHandler(auth),

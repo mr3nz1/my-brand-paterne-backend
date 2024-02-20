@@ -7,7 +7,7 @@ interface UserDocument extends Document {
   email: string;
   password: string;
   createJWT(): string;
-  isPasswordCorrect(): boolean;
+  isPasswordCorrect(candidatePassword: string): boolean;
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -53,6 +53,9 @@ userSchema.methods.isPasswordCorrect = async function (
 
 type UserSchemaType = InferSchemaType<typeof userSchema>;
 
-const UserModel = mongoose.model<UserSchemaType>("User", userSchema);
+const UserModel = mongoose.model<UserSchemaType | UserDocument>(
+  "User",
+  userSchema
+);
 
 export default UserModel;

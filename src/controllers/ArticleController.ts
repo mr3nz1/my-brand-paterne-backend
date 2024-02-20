@@ -88,7 +88,7 @@ class ArticleController {
         StatusCodes.NOT_FOUND
       );
 
-    return res.status(StatusCodes.NOT_FOUND).json({
+    return res.status(StatusCodes.OK).json({
       status: "success deleting article with id: " + articleId,
       data: null,
     });

@@ -39,7 +39,7 @@ class Server {
     app.use("/api/v1/tasks", tasksRoutes);
     app.use("/api/v1/comments", commentsRoutes);
     app.all("*", (req: Request, res: Response) => {
-      res.status(StatusCodes.NOT_FOUND).json({ msg: "Page not found" });
+      res.status(StatusCodes.NOT_FOUND).json({ status: "error", message: "can't find page" });
     });
 
     app.use(errorHandler);

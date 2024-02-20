@@ -10,14 +10,14 @@ router
   .route("/")
   .get(asyncHandler(auth), asyncHandler(ArticleController.getArticles))
   .post(
-    auth,
+    asyncHandler(auth),
     fileUpload.single("bannerImage"),
     asyncHandler(ArticleController.createArticle)
   );
 
 router
   .route("/:id")
-  .get(auth, asyncHandler(ArticleController.getArticle))
+  .get(asyncHandler(auth), asyncHandler(ArticleController.getArticle))
   .patch(
     asyncHandler(auth),
     fileUpload.single("bannerImage"),

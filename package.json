@@ -4,14 +4,17 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "start": "nodemon dist/index.js",
+    "dev": "nodemon --exec ts-node",
     "watch:ts": "npx tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "lint:doc": "npx @redocly/cli lint openapi.yaml",
+    "gen:doc": "npx @redocly/cli preview-docs openapi.yaml"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@redocly/cli": "^1.9.0",
     "@tsed/multipartfiles": "^5.65.9",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
