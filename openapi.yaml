@@ -10,8 +10,6 @@ info:
 servers:
   - url: "http://localhost:3000/api/v1"
     description: Development server
-security:
-  - ApiKeyAuth: []
 
 tags:
   - name: Users
@@ -142,7 +140,10 @@ paths:
         - Users
       summary: "Get User Info"
       description: "Returns names and the email of user who's logged in"
+      security:
+        - token: []
       operationId: getUserInfo
+
       parameters:
         - name: token
           in: query
@@ -1311,7 +1312,8 @@ paths:
     
 components:
   securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
+    token:
+      type: string
       in: header
-      name: X-Auth-Token
+      name: Authorization  # Name of the header
+      description: Bearer {token}

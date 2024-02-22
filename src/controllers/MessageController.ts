@@ -36,7 +36,7 @@ class MessageController {
 
     if (!message)
       throw new CustomError(
-        "Message of id: " + messageId,
+        "Can't find message of id: " + messageId,
         StatusCodes.NOT_FOUND
       );
 

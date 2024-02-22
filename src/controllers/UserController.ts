@@ -27,14 +27,14 @@ class UserController {
       );
     }
 
-    const isPasswordCorrect = user.isPasswordCorrect(value.password);
+    const isPasswordCorrect = await user.isPasswordCorrect(value.password);
 
     if (!isPasswordCorrect)
       throw new CustomError("Incorrect password", StatusCodes.FORBIDDEN);
 
     const token = user.createJWT();
 
-    res.status(StatusCodes.OK).json({ message: "success", data: { token } });
+    res.status(StatusCodes.OK).json({ status: "success", data: { token } });
   }
 
   public async register(req: Request, res: Response, next: NextFunction) {
@@ -49,8 +49,6 @@ class UserController {
       );
 
     const user = await UserModel.create(req.body);
-    await user.save();
-
     const token = user.createJWT();
 
     res.status(StatusCodes.CREATED).json({
@@ -66,7 +64,7 @@ class UserController {
   ) {
     const userId = req.user.userId;
 
-    const user = await UserModel.find({ _id: userId }).select("_id name email");
+    const user = await UserModel.findOne({ _id: userId }).select("_id name email");
 
     if (!user)
       throw new CustomError("No user of id " + userId, StatusCodes.NOT_FOUND);

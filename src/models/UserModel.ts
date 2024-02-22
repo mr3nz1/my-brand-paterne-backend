@@ -26,7 +26,14 @@ const userSchema = new Schema<UserDocument>(
 
 userSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  const hash = await bcrypt.hash(this.password, salt);
+
+  const isMatch = await bcrypt.compare(this.password, hash);
+  console.log(this.password, hash, isMatch);
+  console.log("______________#############___________________");
+
+  this.password = hash;
+
 });
 
 userSchema.methods.createJWT = function () {
@@ -34,8 +41,6 @@ userSchema.methods.createJWT = function () {
   return jwt.sign(
     {
       userId: this._id,
-      name: this.name,
-      email: this.email,
     },
     JWT_SECRET_KEY,
     {
@@ -48,6 +53,7 @@ userSchema.methods.isPasswordCorrect = async function (
   candidatePassword: string
 ) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  console.log(candidatePassword, this.password, isMatch);
   return isMatch;
 };
 
