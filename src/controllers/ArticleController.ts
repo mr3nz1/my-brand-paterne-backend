@@ -11,26 +11,36 @@ import CommentModel from "../models/CommentModel";
 
 class ArticleController {
   public async createArticle(req: Request, res: Response, next: NextFunction) {
-    const value = await createArticleSchema.validateAsync(req.body);
+    try {
+      const value = await createArticleSchema.validateAsync({
+        ...req.body,
+        bannerImage: req.file,
+      });
+    } catch (err) {
+      await fs.unlink("./uploads/" + req.file?.filename);
+    }
 
-    if (!req.file)
-      throw new CustomError(
-        "Banner Image is required",
-        StatusCodes.BAD_REQUEST
-      );
-
-    const filename = req.file.filename;
+    const filename = req.file?.filename;
 
     const article = await ArticleModel.create({
       ...req.body,
-      bannerImageUrl: req.file.filename,
+      bannerImageUrl: req.file?.filename,
     });
 
     await article.save();
 
-    return res
-      .status(StatusCodes.CREATED)
-      .json({ status: "success", data: null });
+    return res.status(StatusCodes.CREATED).json({
+      status: "success",
+      data: {
+        article: {
+          id: article._id,
+          title: article.title,
+          description: article.description,
+          content: article.content,
+          bannerImage: article.bannerImageUrl,
+        },
+      },
+    });
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
@@ -126,7 +136,18 @@ class ArticleController {
 
     await article?.save();
 
-    res.status(StatusCodes.OK).json({ status: "success", data: null });
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      data: {
+        article: {
+          _id: article._id,
+          title: article.title,
+          description: article.description,
+          content: article.content,
+          bannerImage: article.bannerImageUrl,
+        },
+      },
+    });
   }
 }
 

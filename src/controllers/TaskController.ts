@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { createTaskUserSchema } from "../validation/TaskValidation";
+import {
+  createTaskUserSchema,
+  updateTaskUserSchema,
+} from "../validation/TaskValidation";
 import TaskModel from "../models/TaskModel";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors/CustomError";
@@ -7,16 +10,21 @@ import { updateArticleSchema } from "../validation/ArticleValidation";
 
 class TaskController {
   public async createTask(req: Request, res: Response, next: NextFunction) {
-    console.log(req.body);
     const taskData = await createTaskUserSchema.validateAsync(req.body);
 
     const task = await TaskModel.create({ ...taskData });
 
     await task.save();
-
     return res.status(StatusCodes.CREATED).json({
       status: "success",
-      data: null,
+      data: {
+        task: {
+          id: task._id,
+          title: task.title,
+          content: task.content,
+          createdAt: task.content,
+        },
+      },
     });
   }
 
@@ -53,7 +61,7 @@ class TaskController {
       if (!taskId)
         throw new CustomError("Task Id is Required", StatusCodes.NOT_FOUND);
 
-      const taskData = await updateArticleSchema.validateAsync(req.body);
+      const taskData = await updateTaskUserSchema.validateAsync(req.body);
 
       const task = await TaskModel.findById(taskId);
 
@@ -71,12 +79,9 @@ class TaskController {
       );
       await task.save();
 
-      console.log(task);
-      console.log(taskData);
-
       return res.status(StatusCodes.OK).json({
         message: "success",
-        data: null,
+        data: { task },
       });
     } catch (err) {
       next(err);

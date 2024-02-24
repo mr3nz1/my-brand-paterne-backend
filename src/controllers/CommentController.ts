@@ -24,7 +24,14 @@ class CommentController {
 
     return res.status(StatusCodes.CREATED).json({
       status: "success",
-      data: null,
+      data: {
+        comment: {
+          id: comment._id,
+          name: comment.name,
+          email: comment.email,
+          createdAt: comment.createdAt,
+        },
+      },
     });
   }
 
@@ -42,7 +49,27 @@ class CommentController {
     });
   }
 
-  public async deleteComment() {}
+  public async deleteComment(req: Request, res: Response, next: NextFunction) {
+    const commentId = req.params.commentId;
+
+    if (!commentId)
+      throw new CustomError("Comment Id is required", StatusCodes.BAD_REQUEST);
+
+    const comment = await CommentModel.findById(commentId);
+
+    if (!comment)
+      throw new CustomError(
+        "There is not comment with Id: " + commentId,
+        StatusCodes.NOT_FOUND
+      );
+
+    comment.deleteOne();
+
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      data: null,
+    });
+  }
 }
 
 export default new CommentController();

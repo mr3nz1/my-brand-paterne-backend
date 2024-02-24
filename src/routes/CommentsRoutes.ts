@@ -8,7 +8,7 @@ const router: Router = Router();
 router.route("/").post(asyncHandler(CommentController.createComment));
 router.route("/:articleId").get(asyncHandler(CommentController.getComments));
 router
-  .route("/:id")
+  .route("/:commentId")
   .delete(asyncHandler(auth), asyncHandler(CommentController.deleteComment));
 
 export default router;

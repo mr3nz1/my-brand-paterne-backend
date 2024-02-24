@@ -29,11 +29,7 @@ userSchema.pre("save", async function () {
   const hash = await bcrypt.hash(this.password, salt);
 
   const isMatch = await bcrypt.compare(this.password, hash);
-  console.log(this.password, hash, isMatch);
-  console.log("______________#############___________________");
-
   this.password = hash;
-
 });
 
 userSchema.methods.createJWT = function () {

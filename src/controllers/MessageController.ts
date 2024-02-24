@@ -14,7 +14,14 @@ class MessageController {
 
     return res.status(StatusCodes.CREATED).json({
       status: "message",
-      data: null,
+      data: {
+        message: {
+          id: message._id,
+          name: message.name,
+          email: message.email,
+          message: message.message,
+        },
+      },
     });
   }
 

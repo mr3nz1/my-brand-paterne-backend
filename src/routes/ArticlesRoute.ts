@@ -8,7 +8,7 @@ const router: Router = Router();
 
 router
   .route("/")
-  .get(asyncHandler(auth), asyncHandler(ArticleController.getArticles))
+  .get(asyncHandler(ArticleController.getArticles))
   .post(
     asyncHandler(auth),
     fileUpload.single("bannerImage"),
@@ -17,7 +17,7 @@ router
 
 router
   .route("/:id")
-  .get(asyncHandler(auth), asyncHandler(ArticleController.getArticle))
+  .get(asyncHandler(ArticleController.getArticle))
   .patch(
     asyncHandler(auth),
     fileUpload.single("bannerImage"),
