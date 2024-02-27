@@ -26,5 +26,4 @@ jobs:
           JWT_SECRET_KEY: MyNameIsMurenziPaterneAndILoveProgramming
           PORT: 3000
           MONGO_URI : mongodb+srv://mr3nz1:w1gZCPocWbJKu85f@cluster0.6pjqgro.mongodb.net/
-
         run: npm test
