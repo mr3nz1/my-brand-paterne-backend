@@ -8,6 +8,12 @@ on:
     branches:
       - 'develop'
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+
 jobs:
   tests:
     runs-on: ubuntu-latest
