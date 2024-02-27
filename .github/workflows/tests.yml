@@ -21,4 +21,10 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Run tests
+        env:
+          JWT_LIFETIME: 30d
+          JWT_SECRET_KEY: MyNameIsMurenziPaterneAndILoveProgramming
+          PORT: 3000
+          MONGO_URI : mongodb+srv://mr3nz1:w1gZCPocWbJKu85f@cluster0.6pjqgro.mongodb.net/
+
         run: npm test
