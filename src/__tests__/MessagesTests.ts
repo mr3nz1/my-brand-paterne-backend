@@ -2,6 +2,7 @@ import app from "../app";
 import request from "supertest";
 import fs from "fs/promises";
 import mongoose from "mongoose";
+import UserModel from "../models/UserModel";
 
 let token: string;
 let id: string;
@@ -17,7 +18,7 @@ beforeAll(async () => {
     .send(userLoginInfo);
 
   token = response.body.data.token;
-});
+}, 150000);
 
 describe("messages", () => {
   describe("create message", () => {
@@ -94,3 +95,14 @@ describe("messages", () => {
     });
   });
 });
+
+afterAll(async () => {
+  try {
+    await UserModel.findOneAndDelete({
+      email: "test1@gmail.com",
+    });
+    await mongoose.disconnect();
+  } catch (err) {
+    throw err;
+  }
+}, 150000);

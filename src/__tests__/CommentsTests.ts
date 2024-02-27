@@ -31,7 +31,7 @@ beforeAll(async () => {
     .attach("bannerImage", bannerImage, "article_banner_image.jpg");
 
   articleId = response2.body.data.article.id;
-});
+}, 150000);
 
 describe("comments", () => {
   describe("create comment", () => {

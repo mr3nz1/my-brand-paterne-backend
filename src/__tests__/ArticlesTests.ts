@@ -17,7 +17,7 @@ beforeAll(async () => {
     .send(userLoginInfo);
 
   token = response.body.data.token;
-});
+}, 150000);
 
 describe("articles", () => {
   describe("add article", () => {

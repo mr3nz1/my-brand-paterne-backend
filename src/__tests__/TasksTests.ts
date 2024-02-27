@@ -16,7 +16,7 @@ beforeAll(async () => {
     .send(userLoginInfo);
 
   token = response.body.data.token;
-});
+}, 150000);
 
 describe("tasks", () => {
   describe("create task", () => {
@@ -175,4 +175,4 @@ afterAll(async () => {
   } catch (err) {
     throw err;
   }
-});
+}, 150000);
