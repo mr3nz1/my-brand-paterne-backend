@@ -14,8 +14,8 @@ router.get(
 );
 router.patch(
   "/update/:id",
-  asyncHandler(auth),
-  asyncHandler(UserController.update)
+  asyncHandler(auth)
+  // asyncHandler(UserController.update)
 );
 
 export default router;

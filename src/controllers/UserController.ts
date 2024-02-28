@@ -77,24 +77,24 @@ class UserController {
     });
   }
 
-  public async update(req: Request, res: Response, next: NextFunction) {
-    const value = await registerUserSchema.validateAsync(req.body);
+  // public async update(req: Request, res: Response, next: NextFunction) {
+  //   const value = await registerUserSchema.validateAsync(req.body);
 
-    const user = await UserModel.findOne({
-      _id: req.params.id,
-    });
+  //   const user = await UserModel.findOne({
+  //     _id: req.params.id,
+  //   });
 
-    if (!user) {
-      throw new CustomError(
-        "No account with id: " + req.params.id,
-        StatusCodes.BAD_REQUEST
-      );
-    }
+  //   if (!user) {
+  //     throw new CustomError(
+  //       "No account with id: " + req.params.id,
+  //       StatusCodes.BAD_REQUEST
+  //     );
+  //   }
 
-    await user.updateOne(req.body);
+  //   await user.updateOne(req.body);
 
-    res.status(StatusCodes.OK).json({ status: "success", data: null });
-  }
+  //   res.status(StatusCodes.OK).json({ status: "success", data: null });
+  // }
 }
 
 export default new UserController();
