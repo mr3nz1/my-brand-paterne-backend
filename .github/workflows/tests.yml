@@ -35,21 +35,11 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           PORT: ${{ secrets.PORT }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: |
-          npm test
+        run: npm run test:coverage
 
-      - name: Upload Test Results
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: ./coverage/clover.xml
-
-          
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          name: JEST Tests            # Name of the check run which will be created
-          path: coverage/clover.xml    # Path to test results
-          reporter: jest-junit      
+    #   - name: Upload Test Results
+    #     if: success() || failure()
+    #     uses: actions/upload-artifact@v3
+    #     with:
+    #       name: test-results
+    #       path: ./coverage/clover.xml

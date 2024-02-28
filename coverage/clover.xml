@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1709049143366" clover="3.2.0">
-  <project timestamp="1709049143367" name="All files">
-    <metrics statements="335" coveredstatements="308" conditionals="68" coveredconditionals="37" methods="33" coveredmethods="30" elements="436" coveredelements="375" complexity="0" loc="335" ncloc="335" packages="9" files="28" classes="28"/>
+<coverage generated="1709122547906" clover="3.2.0">
+  <project timestamp="1709122547906" name="All files">
+    <metrics statements="335" coveredstatements="308" conditionals="68" coveredconditionals="36" methods="33" coveredmethods="30" elements="436" coveredelements="374" complexity="0" loc="335" ncloc="335" packages="9" files="28" classes="28"/>
     <package name="src">
       <metrics statements="35" coveredstatements="32" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
       <file name="app.ts" path="D:\Projects\my-brand-paterne-backend\src\app.ts">
@@ -44,7 +44,7 @@
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="151" coveredstatements="127" conditionals="55" coveredconditionals="27" methods="19" coveredmethods="18"/>
+      <metrics statements="151" coveredstatements="127" conditionals="55" coveredconditionals="26" methods="19" coveredmethods="18"/>
       <file name="ArticleController.ts" path="D:\Projects\my-brand-paterne-backend\src\controllers\ArticleController.ts">
         <metrics statements="45" coveredstatements="39" conditionals="40" coveredconditionals="23" methods="5" coveredmethods="5"/>
         <line num="2" count="5" type="stmt"/>
@@ -177,18 +177,18 @@
         <line num="92" count="5" type="stmt"/>
       </file>
       <file name="UserController.ts" path="D:\Projects\my-brand-paterne-backend\src\controllers\UserController.ts">
-        <metrics statements="32" coveredstatements="24" conditionals="5" coveredconditionals="3" methods="4" coveredmethods="3"/>
+        <metrics statements="32" coveredstatements="24" conditionals="5" coveredconditionals="2" methods="4" coveredmethods="3"/>
         <line num="2" count="5" type="stmt"/>
         <line num="6" count="5" type="stmt"/>
         <line num="7" count="5" type="stmt"/>
         <line num="8" count="5" type="stmt"/>
         <line num="19" count="7" type="stmt"/>
         <line num="21" count="6" type="stmt"/>
-        <line num="23" count="6" type="cond" truecount="1" falsecount="0"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="30" count="5" type="stmt"/>
-        <line num="32" count="5" type="cond" truecount="0" falsecount="1"/>
-        <line num="33" count="0" type="stmt"/>
+        <line num="23" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="30" count="6" type="stmt"/>
+        <line num="32" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="1" type="stmt"/>
         <line num="35" count="5" type="stmt"/>
         <line num="37" count="5" type="stmt"/>
         <line num="41" count="3" type="stmt"/>
@@ -200,9 +200,9 @@
         <line num="54" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
-        <line num="69" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
+        <line num="69" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
         <line num="87" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -227,10 +227,10 @@
       <file name="CustomError.ts" path="D:\Projects\my-brand-paterne-backend\src\errors\CustomError.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="2" count="5" type="stmt"/>
-        <line num="10" count="14" type="stmt"/>
-        <line num="12" count="14" type="stmt"/>
-        <line num="13" count="14" type="stmt"/>
-        <line num="14" count="14" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="12" count="13" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
+        <line num="14" count="13" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
       </file>
     </package>
@@ -241,7 +241,7 @@
         <line num="4" count="155" type="stmt"/>
         <line num="5" count="60" type="stmt"/>
         <line num="6" count="60" type="stmt"/>
-        <line num="8" count="13" type="stmt"/>
+        <line num="8" count="12" type="stmt"/>
         <line num="13" count="5" type="stmt"/>
       </file>
       <file name="auth.ts" path="D:\Projects\my-brand-paterne-backend\src\middlewares\auth.ts">
@@ -265,9 +265,9 @@
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
-        <line num="12" count="21" type="cond" truecount="2" falsecount="0"/>
-        <line num="13" count="14" type="stmt"/>
-        <line num="18" count="14" type="stmt"/>
+        <line num="12" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="13" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
         <line num="21" count="7" type="cond" truecount="2" falsecount="0"/>
         <line num="22" count="5" type="stmt"/>
         <line num="26" count="2" type="stmt"/>
@@ -321,9 +321,9 @@
         <line num="36" count="6" type="stmt"/>
         <line num="37" count="6" type="stmt"/>
         <line num="48" count="5" type="stmt"/>
-        <line num="51" count="5" type="stmt"/>
-        <line num="52" count="5" type="stmt"/>
-        <line num="53" count="5" type="stmt"/>
+        <line num="51" count="6" type="stmt"/>
+        <line num="52" count="6" type="stmt"/>
+        <line num="53" count="6" type="stmt"/>
         <line num="58" count="5" type="stmt"/>
         <line num="63" count="5" type="stmt"/>
       </file>

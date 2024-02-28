@@ -1,4 +1,4 @@
-import { Request, Response, ErrorRequestHandler, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors/CustomError";
 import { ValidationError } from "joi";
