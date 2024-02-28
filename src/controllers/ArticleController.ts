@@ -20,8 +20,6 @@ class ArticleController {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
 
-    const filename = req.file?.filename;
-
     const article = await ArticleModel.create({
       ...req.body,
       bannerImageUrl: req.file?.filename,

@@ -46,7 +46,7 @@ describe("articles", () => {
       }
     });
 
-    it("Should throw an error when some data are missing", async () => {
+    it("Should throw an error when some data is missing", async () => {
       try {
         const bannerImage = await fs.readFile(
           `uploads/article_banner_image.jpg`
@@ -170,6 +170,7 @@ describe("articles", () => {
 
         expect(response.statusCode).toEqual(200);
         expect(typeof response.body.data).toEqual("object");
+        expect(typeof response.body.data.articles).toEqual("object");
       } catch (err) {
         throw err;
       }
