@@ -12,7 +12,7 @@
     "gen:doc": "npx @redocly/cli preview-docs openapi.yaml",
     "build:doc": "npx @redocly/cli build-docs openapi.yaml --output ./docs/index.html",
     "test": "jest",
-    "test:coverage": "jest --coverage && coveralls < coverage/lcov.info"
+    "test:coverage": "npx jest --coverage && coveralls < coverage/lcov.info"
   },
   "author": "",
   "license": "ISC",
