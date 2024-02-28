@@ -36,8 +36,8 @@ class MessageController {
   public async deleteMessage(req: Request, res: Response, next: NextFunction) {
     const messageId = req.params.id;
 
-    if (!messageId)
-      throw new CustomError("Message Id is required", StatusCodes.BAD_REQUEST);
+    // if (!messageId)
+    //   throw new CustomError("Message Id is required", StatusCodes.BAD_REQUEST);
 
     const message = await MessageModel.findByIdAndDelete(messageId);
 

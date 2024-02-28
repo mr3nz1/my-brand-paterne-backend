@@ -19,7 +19,7 @@ class ArticleController {
     } catch (err) {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
-
+    
     const article = await ArticleModel.create({
       ...req.body,
       bannerImageUrl: req.file?.filename,
@@ -54,11 +54,11 @@ class ArticleController {
   public async getArticle(req: Request, res: Response, next: NextFunction) {
     const articleId = req.params.id;
 
-    if (!articleId)
-      throw new CustomError(
-        "Please provide an article",
-        StatusCodes.BAD_REQUEST
-      );
+    // if (!articleId)
+    //   throw new CustomError(
+    //     "Please provide an article",
+    //     StatusCodes.BAD_REQUEST
+    //   );
 
     const article = await ArticleModel.findById(articleId).select(
       "_id, title description content bannerImageUrl"

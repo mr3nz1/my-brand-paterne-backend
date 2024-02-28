@@ -40,8 +40,8 @@ class TaskController {
   public async deleteTask(req: Request, res: Response, next: NextFunction) {
     const taskId = req.params.id;
 
-    if (!taskId)
-      throw new CustomError("Task Id is required", StatusCodes.BAD_REQUEST);
+    // if (!taskId)
+    //   throw new CustomError("Task Id is required", StatusCodes.BAD_REQUEST);
 
     const task = await TaskModel.findByIdAndDelete(taskId);
 
@@ -58,8 +58,8 @@ class TaskController {
     try {
       const taskId = req.params.id;
 
-      if (!taskId)
-        throw new CustomError("Task Id is Required", StatusCodes.NOT_FOUND);
+      // if (!taskId)
+      //   throw new CustomError("Task Id is Required", StatusCodes.NOT_FOUND);
 
       const taskData = await updateTaskUserSchema.validateAsync(req.body);
 

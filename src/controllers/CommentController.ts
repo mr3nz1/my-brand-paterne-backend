@@ -38,8 +38,8 @@ class CommentController {
   public async getComments(req: Request, res: Response, next: NextFunction) {
     const articleId = req.params.articleId;
 
-    if (!articleId)
-      throw new CustomError("Article Id is required", StatusCodes.BAD_REQUEST);
+    // if (!articleId)
+    //   throw new CustomError("Article Id is required", StatusCodes.BAD_REQUEST);
 
     const comments = await CommentModel.find({ articleId });
 
@@ -52,8 +52,8 @@ class CommentController {
   public async deleteComment(req: Request, res: Response, next: NextFunction) {
     const commentId = req.params.commentId;
 
-    if (!commentId)
-      throw new CustomError("Comment Id is required", StatusCodes.BAD_REQUEST);
+    // if (!commentId)
+    //   throw new CustomError("Comment Id is required", StatusCodes.BAD_REQUEST);
 
     const comment = await CommentModel.findById(commentId);
 
