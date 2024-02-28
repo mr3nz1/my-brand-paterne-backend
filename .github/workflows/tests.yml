@@ -30,6 +30,10 @@ jobs:
 
       - name: jest-tests
         uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-results
+          path: ./coverage/clover.xml
         env:
           JWT_LIFETIME: ${{ secrets.JWT_LIFETIME }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
