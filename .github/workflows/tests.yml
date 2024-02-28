@@ -39,4 +39,4 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           PORT: ${{ secrets.PORT }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
-      - run: npm test
+        run: npm test
