@@ -1,7 +1,7 @@
 name: 'Test Report'
 on:
   workflow_run:
-    workflows: ['Tests']                     # runs after CI workflow
+    workflows: ['Tests']                     
     types:
       - completed
 permissions:
@@ -9,11 +9,15 @@ permissions:
   actions: read
   checks: write
 jobs:
-  report:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: dorny/test-reporter@v1
-      with:
-        name: JEST Tests
-        path: './coverage/clover.xml'
-        reporter: jest
+    build-test:
+        name: Build & Test
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3     
+          - run: npm ci                   
+          - name: Test Report
+            uses: actions/upload-artifact@v2
+            if: always()                  
+            with:
+              name: test-results          
+              path: ./coverage/clover.xml       
