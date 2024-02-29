@@ -1,12 +1,6 @@
 name: Tests
 
-on:
-  push:
-    branches:
-      - "develop"
-  pull_request:
-    branches:
-      - "develop"
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -16,7 +10,7 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 20
+          node-version: v18.17.1
 
       - name: Install Dependencies
         run: npm ci
