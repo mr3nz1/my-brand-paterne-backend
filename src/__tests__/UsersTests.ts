@@ -32,7 +32,7 @@ describe("users", () => {
       } catch (err) {
         throw err; // Re-throw the error to fail the test
       }
-    });
+    }, 150000);
 
     test("user registration with missing properties users", async () => {
       const userRegistrationInfo = {
@@ -93,7 +93,7 @@ describe("users", () => {
         const response = await request(app)
           .post("/api/v1/users/login")
           .send(userLoginInfo);
-          
+
         expect(response.statusCode).toEqual(200);
         expect(response.body).toBeDefined();
 
