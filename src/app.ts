@@ -23,7 +23,6 @@ app.use(morgan("combined"));
 
 app.use(
   cors({
-    origin: "https://portfolio-backend-0yqb.onrender.com/api/v1",
     methods: ["POST", "GET", "PATCH", "DELETE"],
   })
 );
