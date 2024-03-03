@@ -25,14 +25,12 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Run Jest Tests
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          JWT_LIFETIME: ${{ secrets.JWT_LIFETIME }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          PORT: ${{ secrets.PORT }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          github-token: ${{ github.token }}
-        run: npm run test:coverage
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.2.3
