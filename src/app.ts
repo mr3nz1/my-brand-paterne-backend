@@ -14,11 +14,19 @@ import bodyParser from "body-parser";
 import connectDB from "./db/connectDB";
 import { StatusCodes } from "http-status-codes";
 import morgan from "morgan";
+import cors from "cors";
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan("combined"));
+
+app.use(
+  cors({
+    origin: "https://portfolio-backend-0yqb.onrender.com/api/v1",
+    methods: ["POST", "GET", "PATCH", "DELETE"],
+  })
+);
 
 dotenv.config();
 
@@ -52,4 +60,4 @@ async function initDB() {
 
 initDB();
 
-export default app
+export default app;
