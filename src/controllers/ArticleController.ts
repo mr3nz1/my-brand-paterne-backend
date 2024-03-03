@@ -79,11 +79,11 @@ class ArticleController {
   public async deleteArticle(req: Request, res: Response, next: NextFunction) {
     const articleId = req.params.id;
 
-    if (!articleId)
-      throw new CustomError(
-        "Please provide an article",
-        StatusCodes.BAD_REQUEST
-      );
+    // if (!articleId)
+    //   throw new CustomError(
+    //     "Please provide an article",
+    //     StatusCodes.BAD_REQUEST
+    //   );
 
     const article = await ArticleModel.findByIdAndDelete(articleId);
     await CommentModel.deleteMany({ articleId });
@@ -105,11 +105,11 @@ class ArticleController {
   public async updateArticle(req: Request, res: Response, next: NextFunction) {
     const articleId = req.params.id;
 
-    if (!articleId)
-      throw new CustomError(
-        "Please provide an article",
-        StatusCodes.BAD_REQUEST
-      );
+    // if (!articleId)
+    //   throw new CustomError(
+    //     "Please provide an article",
+    //     StatusCodes.BAD_REQUEST
+    //   );
 
     const value = await updateArticleSchema.validateAsync(req.body);
 
