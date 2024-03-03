@@ -12,7 +12,7 @@
     "gen:doc": "npx @redocly/cli preview-docs openapi.yaml",
     "build:doc": "npx @redocly/cli build-docs openapi.yaml --output ./docs/index.html",
     "test": "jest",
-    "test:coverage": "rm -rf ./coverage && jest --coverage --detectOpenHandles && node ./node_modules/coveralls/bin/coveralls.js --verbose"
+    "test:coverage": "rm -rf ./coverage && jest --coverage --detectOpenHandles && node .  /node_modules/coveralls/bin/coveralls.js --verbose --trace-uncaught"
   },
   "author": "",
   "license": "ISC",
