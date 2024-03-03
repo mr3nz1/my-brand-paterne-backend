@@ -37,6 +37,6 @@ jobs:
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.2.3
         with:
-          repo_token: ${{ github.token }}
+          github-token: ${{ github.token }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
