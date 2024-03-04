@@ -13,7 +13,7 @@ class MessageController {
     message.save();
 
     return res.status(StatusCodes.CREATED).json({
-      status: "message",
+      status: "success",
       data: {
         message: {
           id: message._id,
