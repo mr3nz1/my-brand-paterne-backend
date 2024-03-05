@@ -40,7 +40,7 @@ class MessageController {
 
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { transformedMessages },
+      data: { messages: transformedMessages },
     });
   }
 
