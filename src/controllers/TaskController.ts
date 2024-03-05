@@ -31,9 +31,18 @@ class TaskController {
   public async getTasks(req: Request, res: Response, next: NextFunction) {
     const tasks = await TaskModel.find({});
 
+    const transformedTasks = tasks.map((task) => {
+      return {
+        id: task._id,
+        title: task.title,
+        content: task.content,
+        createdAt: task.createdAt,
+      };
+    });
+
     res.status(StatusCodes.OK).json({
       status: "success",
-      data: { tasks },
+      data: { tasks: transformedTasks },
     });
   }
 
