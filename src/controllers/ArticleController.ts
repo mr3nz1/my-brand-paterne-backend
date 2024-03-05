@@ -19,7 +19,7 @@ class ArticleController {
     } catch (err) {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
-    
+
     const article = await ArticleModel.create({
       ...req.body,
       bannerImageUrl: req.file?.filename,
@@ -43,11 +43,22 @@ class ArticleController {
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
     const articles = await ArticleModel.find({}).select(
-      "_id, title description content bannerImageUrl isPublished"
+      "_id title description content bannerImageUrl isPublished"
     );
+    const transformedArticles = articles.map((article) => {
+      return {
+        id: article._id,
+        title: article.title,
+        description: article.description,
+        content: article.content,
+        bannerImageUrl: article.bannerImageUrl,
+        isPublished: article.isPublished,
+      };
+    });
+
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { articles },
+      data: { articles: transformedArticles },
     });
   }
 
