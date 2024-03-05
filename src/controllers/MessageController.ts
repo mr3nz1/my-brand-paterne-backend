@@ -27,9 +27,17 @@ class MessageController {
 
   public async getMessages(req: Request, res: Response, next: NextFunction) {
     const messages = await MessageModel.find({});
+
+    const transformedMessages = messages.map((message) => {
+      return {
+        id: message._id,
+        ...message,
+      };
+    });
+
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { messages },
+      data: { transformedMessages },
     });
   }
 
