@@ -31,7 +31,10 @@ class MessageController {
     const transformedMessages = messages.map((message) => {
       return {
         id: message._id,
-        ...message,
+        name: message.name,
+        email: message.email,
+        message: message.message,
+        createdAt: message.createdAt,
       };
     });
 

@@ -43,7 +43,7 @@ class ArticleController {
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
     const articles = await ArticleModel.find({}).select(
-      "_id title description content bannerImageUrl isPublished"
+      "_id title description content bannerImageUrl isPublished createdAt"
     );
     const transformedArticles = articles.map((article) => {
       return {
@@ -53,6 +53,7 @@ class ArticleController {
         content: article.content,
         bannerImageUrl: article.bannerImageUrl,
         isPublished: article.isPublished,
+        createdAt: article.createdAt,
       };
     });
 

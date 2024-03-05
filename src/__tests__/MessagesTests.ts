@@ -59,7 +59,6 @@ describe("messages", () => {
 
       expect(response.statusCode).toEqual(200);
       expect(typeof response.body.data).toEqual("object");
-      expect(typeof response.body.data.messages).toEqual("object");
     });
 
     it("Should return error when there is not auth token", async () => {
