@@ -42,9 +42,11 @@ class ArticleController {
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
-    const articles = await ArticleModel.find({}).select(
-      "_id title description content bannerImageUrl isPublished createdAt"
-    );
+    const articles = await ArticleModel.find({})
+      .select(
+        "_id title description content bannerImageUrl isPublished createdAt"
+      )
+      .sort({ createdAt: -1 });
     const transformedArticles = articles.map((article) => {
       return {
         id: article._id,

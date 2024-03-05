@@ -26,7 +26,7 @@ class MessageController {
   }
 
   public async getMessages(req: Request, res: Response, next: NextFunction) {
-    const messages = await MessageModel.find({});
+    const messages = await MessageModel.find({}).sort({ createdAt: -1 });;
 
     const transformedMessages = messages.map((message) => {
       return {
