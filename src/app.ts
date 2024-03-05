@@ -17,7 +17,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan("combined"));
 
@@ -26,6 +26,8 @@ app.use(
     methods: ["POST", "GET", "PATCH", "DELETE"],
   })
 );
+
+app.use(express.static("uploads"));
 
 dotenv.config();
 

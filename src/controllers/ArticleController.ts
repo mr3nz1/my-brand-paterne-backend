@@ -43,7 +43,7 @@ class ArticleController {
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
     const articles = await ArticleModel.find({}).select(
-      "_id, title description content bannerImageUrl"
+      "_id, title description content bannerImageUrl isPublished"
     );
     return res.status(StatusCodes.OK).json({
       status: "success",
