@@ -41,7 +41,9 @@ class CommentController {
     // if (!articleId)
     //   throw new CustomError("Article Id is required", StatusCodes.BAD_REQUEST);
 
-    const comments = await CommentModel.find({ articleId });
+    const comments = await CommentModel.find({ articleId }).sort({
+      createdAt: -1,
+    });
 
     res.status(StatusCodes.OK).json({
       status: "success",
