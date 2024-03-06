@@ -87,13 +87,15 @@ class ArticleController {
     return res.status(StatusCodes.OK).json({
       status: "success",
       data: {
-        id: article._id,
-        title: article.title,
-        description: article.title,
-        content: article.content,
-        bannerImageUrl: article.bannerImageUrl,
-        isPublished: article.isPublished,
-        createdAt: article.createdAt,
+        article: {
+          id: article._id,
+          title: article.title,
+          description: article.title,
+          content: article.content,
+          bannerImageUrl: article.bannerImageUrl,
+          isPublished: article.isPublished,
+          createdAt: article.createdAt,
+        },
       },
     });
   }
