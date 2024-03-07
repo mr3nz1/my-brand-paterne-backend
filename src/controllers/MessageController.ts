@@ -13,7 +13,7 @@ class MessageController {
     message.save();
 
     return res.status(StatusCodes.CREATED).json({
-      status: "message",
+      status: "success",
       data: {
         message: {
           id: message._id,
@@ -26,10 +26,21 @@ class MessageController {
   }
 
   public async getMessages(req: Request, res: Response, next: NextFunction) {
-    const messages = await MessageModel.find({});
+    const messages = await MessageModel.find({}).sort({ createdAt: -1 });;
+
+    const transformedMessages = messages.map((message) => {
+      return {
+        id: message._id,
+        name: message.name,
+        email: message.email,
+        message: message.message,
+        createdAt: message.createdAt,
+      };
+    });
+
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { messages },
+      data: { messages: transformedMessages },
     });
   }
 

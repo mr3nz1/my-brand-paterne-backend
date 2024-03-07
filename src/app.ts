@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import path from "path";
 
 const app: Express = express();
 
@@ -29,10 +30,11 @@ app.use(
 
 dotenv.config();
 
+app.use("/photos", express.static(path.join(__dirname, "../uploads")));
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Typescript Classes Express Project");
 });
-
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/articles", articlesRoutes);
 app.use("/api/v1/messages", messagesRoutes);

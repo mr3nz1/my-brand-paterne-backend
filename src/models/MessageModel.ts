@@ -6,13 +6,7 @@ import mongoose, {
   InferSchemaType,
 } from "mongoose";
 
-interface MessageDocument extends Document {
-  name: string;
-  email: string;
-  message: string;
-}
-
-const messageSchema = new Schema<MessageDocument>(
+const messageSchema = new Schema(
   {
     name: {
       type: String,
@@ -27,7 +21,9 @@ const messageSchema = new Schema<MessageDocument>(
       required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 type MessageSchemaType = InferSchemaType<typeof messageSchema>;

@@ -8,9 +8,12 @@ import { StatusCodes } from "http-status-codes";
 import ArticleModel from "../models/ArticleModel";
 import fs from "fs/promises";
 import CommentModel from "../models/CommentModel";
+import cloudinary from "../utils/cloudinaryConfig";
 
 class ArticleController {
   public async createArticle(req: Request, res: Response, next: NextFunction) {
+    if (!req.file)
+      throw new CustomError("Please upload the Image", StatusCodes.BAD_REQUEST);
     try {
       const value = await createArticleSchema.validateAsync({
         ...req.body,
@@ -19,10 +22,16 @@ class ArticleController {
     } catch (err) {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
-    
+    console.log(process.env.CLOUDINARY_API_KEY,);
+
+    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+      folder: "images",
+    });
+
+
     const article = await ArticleModel.create({
       ...req.body,
-      bannerImageUrl: req.file?.filename,
+      bannerImageUrl: uploadedImage.secure_url,
     });
 
     await article.save();
@@ -42,12 +51,26 @@ class ArticleController {
   }
 
   public async getArticles(req: Request, res: Response, next: NextFunction) {
-    const articles = await ArticleModel.find({}).select(
-      "_id, title description content bannerImageUrl"
-    );
+    const articles = await ArticleModel.find({})
+      .select(
+        "_id title description content bannerImageUrl isPublished createdAt"
+      )
+      .sort({ createdAt: -1 });
+    const transformedArticles = articles.map((article) => {
+      return {
+        id: article._id,
+        title: article.title,
+        description: article.description,
+        content: article.content,
+        bannerImageUrl: article.bannerImageUrl,
+        isPublished: article.isPublished,
+        createdAt: article.createdAt,
+      };
+    });
+
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { articles },
+      data: { articles: transformedArticles },
     });
   }
 
@@ -72,7 +95,17 @@ class ArticleController {
 
     return res.status(StatusCodes.OK).json({
       status: "success",
-      data: { article },
+      data: {
+        article: {
+          id: article._id,
+          title: article.title,
+          description: article.title,
+          content: article.content,
+          bannerImageUrl: article.bannerImageUrl,
+          isPublished: article.isPublished,
+          createdAt: article.createdAt,
+        },
+      },
     });
   }
 
