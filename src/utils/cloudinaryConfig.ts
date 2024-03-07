@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "../../node_modules/cloudinary";
 
 cloudinary.config({
   cloud_name: "dpj1prts7",
