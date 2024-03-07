@@ -8,9 +8,12 @@ import { StatusCodes } from "http-status-codes";
 import ArticleModel from "../models/ArticleModel";
 import fs from "fs/promises";
 import CommentModel from "../models/CommentModel";
+import cloudinary from "../utils/cloudinaryConfig";
 
 class ArticleController {
   public async createArticle(req: Request, res: Response, next: NextFunction) {
+    if (!req.file)
+      throw new CustomError("Please upload the Image", StatusCodes.BAD_REQUEST);
     try {
       const value = await createArticleSchema.validateAsync({
         ...req.body,
@@ -19,10 +22,16 @@ class ArticleController {
     } catch (err) {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
+    console.log(process.env.CLOUDINARY_API_KEY,);
+
+    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+      folder: "images",
+    });
+
 
     const article = await ArticleModel.create({
       ...req.body,
-      bannerImageUrl: req.file?.filename,
+      bannerImageUrl: uploadedImage.secure_url,
     });
 
     await article.save();
