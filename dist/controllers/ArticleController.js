@@ -110,7 +110,9 @@ class ArticleController {
             //   );
             const article = yield ArticleModel_1.default.findByIdAndDelete(articleId);
             yield CommentModel_1.default.deleteMany({ articleId });
-            yield promises_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl));
+            const fileNameArr = article === null || article === void 0 ? void 0 : article.bannerImageUrl.split("/");
+            const fileName = fileNameArr[fileNameArr.length - 1];
+            const status = yield cloudinaryConfig_1.default.api.delete_resources([`images/${fileName.split(".")[0]}`], { type: "upload", resource_type: "image" });
             if (!article)
                 throw new CustomError_1.default("No article of Id: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
             return res.status(http_status_codes_1.StatusCodes.OK).json({

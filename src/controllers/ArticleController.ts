@@ -22,12 +22,11 @@ class ArticleController {
     } catch (err) {
       await fs.unlink("./uploads/" + req.file?.filename);
     }
-    console.log(process.env.CLOUDINARY_API_KEY,);
+    console.log(process.env.CLOUDINARY_API_KEY);
 
     const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
       folder: "images",
     });
-
 
     const article = await ArticleModel.create({
       ...req.body,
@@ -121,7 +120,13 @@ class ArticleController {
     const article = await ArticleModel.findByIdAndDelete(articleId);
     await CommentModel.deleteMany({ articleId });
 
-    await fs.unlink("./uploads/" + article?.bannerImageUrl);
+    const fileNameArr = article?.bannerImageUrl.split("/");
+    const fileName = fileNameArr![fileNameArr!.length - 1];
+
+    const status = await cloudinary.api.delete_resources(
+      [`images/${fileName.split(".")[0]}`],
+      { type: "upload", resource_type: "image" }
+    );
 
     if (!article)
       throw new CustomError(
