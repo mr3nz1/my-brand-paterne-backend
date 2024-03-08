@@ -160,12 +160,24 @@ class ArticleController {
       );
 
     if (req.file) {
-      await fs.unlink("./uploads/" + article?.bannerImageUrl);
+      // await fs.unlink("./uploads/" + article?.bannerImageUrl);
+      const fileNameArr = article?.bannerImageUrl.split("/");
+      const fileName = fileNameArr![fileNameArr!.length - 1];
+
+      const status = await cloudinary.api.delete_resources(
+        [`images/${fileName.split(".")[0]}`],
+        { type: "upload", resource_type: "image" }
+      );
+
+      const uploadedImage = await cloudinary.uploader.upload(req.file.path, {
+        folder: "images",
+      });
 
       await article?.updateOne({
         ...req.body,
-        bannerImageUrl: req.file.filename,
+        bannerImageUrl: uploadedImage.secure_url,
       });
+      
     } else {
       await article?.updateOne({ ...req.body });
     }

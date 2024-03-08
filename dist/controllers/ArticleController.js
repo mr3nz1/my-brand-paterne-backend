@@ -134,8 +134,14 @@ class ArticleController {
             if (!article)
                 throw new CustomError_1.default("Can't find article with ID: " + articleId, http_status_codes_1.StatusCodes.NOT_FOUND);
             if (req.file) {
-                yield promises_1.default.unlink("./uploads/" + (article === null || article === void 0 ? void 0 : article.bannerImageUrl));
-                yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign(Object.assign({}, req.body), { bannerImageUrl: req.file.filename })));
+                // await fs.unlink("./uploads/" + article?.bannerImageUrl);
+                const fileNameArr = article === null || article === void 0 ? void 0 : article.bannerImageUrl.split("/");
+                const fileName = fileNameArr[fileNameArr.length - 1];
+                const status = yield cloudinaryConfig_1.default.api.delete_resources([`images/${fileName.split(".")[0]}`], { type: "upload", resource_type: "image" });
+                const uploadedImage = yield cloudinaryConfig_1.default.uploader.upload(req.file.path, {
+                    folder: "images",
+                });
+                yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign(Object.assign({}, req.body), { bannerImageUrl: uploadedImage.secure_url })));
             }
             else {
                 yield (article === null || article === void 0 ? void 0 : article.updateOne(Object.assign({}, req.body)));
