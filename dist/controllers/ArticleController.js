@@ -16,12 +16,10 @@ const ArticleValidation_1 = require("../validation/ArticleValidation");
 const CustomError_1 = __importDefault(require("../errors/CustomError"));
 const http_status_codes_1 = require("http-status-codes");
 const ArticleModel_1 = __importDefault(require("../models/ArticleModel"));
-const promises_1 = __importDefault(require("fs/promises"));
 const CommentModel_1 = __importDefault(require("../models/CommentModel"));
 const cloudinaryConfig_1 = __importDefault(require("../utils/cloudinaryConfig"));
 class ArticleController {
     createArticle(req, res, next) {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.file)
                 throw new CustomError_1.default("Please upload the Image", http_status_codes_1.StatusCodes.BAD_REQUEST);
@@ -29,7 +27,7 @@ class ArticleController {
                 const value = yield ArticleValidation_1.createArticleSchema.validateAsync(Object.assign(Object.assign({}, req.body), { bannerImage: req.file }));
             }
             catch (err) {
-                yield promises_1.default.unlink("./uploads/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename));
+                // await fs.unlink("./tmp/uploads/" + req.file?.filename);
             }
             console.log(process.env.CLOUDINARY_API_KEY);
             const uploadedImage = yield cloudinaryConfig_1.default.uploader.upload(req.file.path, {

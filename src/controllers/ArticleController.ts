@@ -20,7 +20,7 @@ class ArticleController {
         bannerImage: req.file,
       });
     } catch (err) {
-      await fs.unlink("./uploads/" + req.file?.filename);
+      // await fs.unlink("./tmp/uploads/" + req.file?.filename);
     }
     console.log(process.env.CLOUDINARY_API_KEY);
 
@@ -177,7 +177,7 @@ class ArticleController {
         ...req.body,
         bannerImageUrl: uploadedImage.secure_url,
       });
-      
+
     } else {
       await article?.updateOne({ ...req.body });
     }
