@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cloudinary_1 = require("cloudinary");
+const cloudinary_1 = require("../../node_modules/cloudinary");
 cloudinary_1.v2.config({
     cloud_name: "dpj1prts7",
     api_key: "746973231954764",

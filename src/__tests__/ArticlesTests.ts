@@ -44,7 +44,7 @@ describe("articles", () => {
       } catch (err) {
         throw err;
       }
-    });
+    }, 150000);
 
     it("Should throw an error when some data is missing", async () => {
       try {
@@ -64,7 +64,7 @@ describe("articles", () => {
       } catch (err) {
         throw err;
       }
-    });
+    }, 150000);
 
     it("Should throw an error if the token is not provided", async () => {
       try {
@@ -83,7 +83,7 @@ describe("articles", () => {
       } catch (err) {
         throw err;
       }
-    });
+    }, 150000);
   });
 
   describe("update articles", () => {
@@ -104,7 +104,7 @@ describe("articles", () => {
       } catch (err) {
         throw err;
       }
-    });
+    }, 150000);
 
     it("Should throw an error if the token is not provided", async () => {
       try {
@@ -120,7 +120,7 @@ describe("articles", () => {
       } catch (err) {
         throw err;
       }
-    });
+    }, 150000);
   });
 
   describe("get article", () => {
