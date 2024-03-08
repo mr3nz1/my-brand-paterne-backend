@@ -30,9 +30,9 @@ const multer_1 = __importDefault(require("multer"));
 const uuid = __importStar(require("uuid"));
 const path = __importStar(require("path"));
 const fileStorageEngine = multer_1.default.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, "./tmp/uploads");
-    },
+    // destination: (req, file, callback) => {
+    //   callback(null, "./tmp/uploads");
+    // },
     filename: (req, file, callback) => {
         callback(null, uuid.v4() + path.extname(file.originalname));
     },
